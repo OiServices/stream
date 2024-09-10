@@ -1,5 +1,4 @@
 import { ProjectType } from '../enums/enums';
-import { ProjectImage } from './projectImage.interface';
 import { Transaction } from './transaction.interface';
 
 export interface Project {
@@ -17,6 +16,14 @@ export interface Project {
   githubLink?: string;
   landingPageLink?: string;
   transactions: Transaction[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ProjectImage {
+  id: string;
+  projectId: string;
+  url: string;
   createdAt: Date;
   updatedAt: Date;
 }
