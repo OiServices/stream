@@ -1,0 +1,5 @@
+/node_modules
+logs/
+
+# Jest coverage directory
+coverage/
