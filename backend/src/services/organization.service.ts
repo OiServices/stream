@@ -20,8 +20,49 @@ const mapPrismaOrganizationToCustomOrganization = (prismaOrganization: any): Org
   };
 };
 
-// Create or Update Organization Profile (User)
-export const upsertOrganizationProfile = async (
+// Create Organization Profile (User)
+export const createOrganizationProfile = async (
+  userId: string,
+  organizationData: Partial<Organization>
+): Promise<Organization | null> => {
+  try {
+    // Check if the organization profile already exists
+    const existingOrganization = await prisma.organization.findUnique({
+      where: { userId },
+    });
+
+    if (existingOrganization) {
+      throw new AppError('Organization profile already exists', 400);
+    }
+
+    const organization = await prisma.organization.create({
+      data: {
+        userId,
+        name: organizationData.name!,
+        description: organizationData.description!,
+        website: organizationData.website,
+        logoUrl: organizationData.logoUrl,
+        socialMedia: {
+          create: organizationData.socialMedia?.map((link) => ({
+            platform: link.platform,
+            url: link.url,
+          })),
+        },
+      },
+      include: {
+        socialMedia: true,
+        projects: true,
+      },
+    });
+
+    return organization ? mapPrismaOrganizationToCustomOrganization(organization) : null;
+  } catch (error) {
+    throw new AppError('Error creating organization profile', 500);
+  }
+};
+
+// Update Organization Profile (User)
+export const updateOrganizationProfile = async (
   userId: string,
   organizationData: Partial<Organization>
 ): Promise<Organization | null> => {
@@ -34,54 +75,34 @@ export const upsertOrganizationProfile = async (
       },
     });
 
-    let organization;
-
-    if (existingOrganization) {
-      organization = await prisma.organization.update({
-        where: { userId },
-        data: {
-          name: organizationData.name,
-          description: organizationData.description,
-          website: organizationData.website,
-          logoUrl: organizationData.logoUrl,
-          socialMedia: {
-            deleteMany: { organizationId: existingOrganization.id },
-            create: organizationData.socialMedia?.map((link) => ({
-              platform: link.platform,
-              url: link.url,
-            })),
-          },
-        },
-        include: {
-          socialMedia: true,
-          projects: true,
-        },
-      });
-    } else {
-      organization = await prisma.organization.create({
-        data: {
-          userId,
-          name: organizationData.name!,
-          description: organizationData.description!,
-          website: organizationData.website,
-          logoUrl: organizationData.logoUrl,
-          socialMedia: {
-            create: organizationData.socialMedia?.map((link) => ({
-              platform: link.platform,
-              url: link.url,
-            })),
-          },
-        },
-        include: {
-          socialMedia: true,
-          projects: true,
-        },
-      });
+    if (!existingOrganization) {
+      throw new AppError('Organization profile not found', 404);
     }
 
-    return organization ? mapPrismaOrganizationToCustomOrganization(organization) : null;
+    const updatedOrganization = await prisma.organization.update({
+      where: { userId },
+      data: {
+        name: organizationData.name,
+        description: organizationData.description,
+        website: organizationData.website,
+        logoUrl: organizationData.logoUrl,
+        socialMedia: {
+          deleteMany: { organizationId: existingOrganization.id },
+          create: organizationData.socialMedia?.map((link) => ({
+            platform: link.platform,
+            url: link.url,
+          })),
+        },
+      },
+      include: {
+        socialMedia: true,
+        projects: true,
+      },
+    });
+
+    return updatedOrganization ? mapPrismaOrganizationToCustomOrganization(updatedOrganization) : null;
   } catch (error) {
-    throw new AppError('Error creating or updating organization profile', 500);
+    throw new AppError('Error updating organization profile', 500);
   }
 };
 

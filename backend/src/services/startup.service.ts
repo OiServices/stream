@@ -16,8 +16,41 @@ const mapPrismaStartupToCustomStartup = (prismaStartup: any): Startup => {
   };
 };
 
-// Create or Update Startup Profile (User)
-export const upsertStartupProfile = async (
+// Create Startup Profile (User)
+export const createStartupProfile = async (
+  userId: string,
+  startupData: Partial<Startup>
+): Promise<Startup | null> => {
+  try {
+    // Check if the startup profile already exists
+    const existingStartup = await prisma.startup.findUnique({
+      where: { userId },
+    });
+
+    if (existingStartup) {
+      throw new AppError('Startup profile already exists', 400);
+    }
+
+    const startup = await prisma.startup.create({
+      data: {
+        userId,
+        name: startupData.name!,
+        description: startupData.description!,
+        website: startupData.website,
+      },
+      include: {
+        project: true,
+      },
+    });
+
+    return startup ? mapPrismaStartupToCustomStartup(startup) : null;
+  } catch (error) {
+    throw new AppError('Error creating startup profile', 500);
+  }
+};
+
+// Update Startup Profile (User)
+export const updateStartupProfile = async (
   userId: string,
   startupData: Partial<Startup>
 ): Promise<Startup | null> => {
@@ -29,37 +62,25 @@ export const upsertStartupProfile = async (
       },
     });
 
-    let startup;
-
-    if (existingStartup) {
-      startup = await prisma.startup.update({
-        where: { userId },
-        data: {
-          name: startupData.name,
-          description: startupData.description,
-          website: startupData.website,
-        },
-        include: {
-          project: true,
-        },
-      });
-    } else {
-      startup = await prisma.startup.create({
-        data: {
-          userId,
-          name: startupData.name!,
-          description: startupData.description!,
-          website: startupData.website,
-        },
-        include: {
-          project: true,
-        },
-      });
+    if (!existingStartup) {
+      throw new AppError('Startup profile not found', 404);
     }
 
-    return startup ? mapPrismaStartupToCustomStartup(startup) : null;
+    const updatedStartup = await prisma.startup.update({
+      where: { userId },
+      data: {
+        name: startupData.name,
+        description: startupData.description,
+        website: startupData.website,
+      },
+      include: {
+        project: true,
+      },
+    });
+
+    return updatedStartup ? mapPrismaStartupToCustomStartup(updatedStartup) : null;
   } catch (error) {
-    throw new AppError('Error creating or updating startup profile', 500);
+    throw new AppError('Error updating startup profile', 500);
   }
 };
 

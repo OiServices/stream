@@ -174,30 +174,43 @@ export const changePassword = async (
 
 // Forgot Password (Send reset link via email)
 export const generatePasswordResetLink = async (email: string): Promise<void> => {
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user) throw new AppError('User not found', 404);
+
   
-    if (!user) throw new AppError('User not found', 404);
+  const resetToken = sign(
+    { email: user.email },
+    env.jwtSecret,
+    { expiresIn: '1h' }
+  );
+
+  //email service
+  console.log(`Password reset link: https://example.com/reset-password?token=${resetToken}`);
+};
+
+// Function to verify the reset token
+export const verifyResetToken = (token: string): string => {
+  try {
+    const decoded = verify(token, env.jwtSecret) as { email: string };
+    return decoded.email;
+  } catch (error) {
+    throw new AppError('Invalid or expired token', 400);
+  }
+};
+
+// Reset Password (Service Layer Logic)
+export const resetPassword = async (token: string, newPassword: string): Promise<void> => {
+  const email = verifyResetToken(token);
+
   
-    // Generate a reset token with an expiry
-    const resetToken = sign(
-      { email: user.email },
-      env.jwtSecret,       
-      { expiresIn: '1h' } 
-    );
+  const hashedNewPassword = await hash(newPassword, 10);
+
   
-    // sendPasswordResetEmail(user.email, resetToken);
-  
-    console.log(`Password reset link: https://example.com/reset-password?token=${resetToken}`);
-  };
-  
-  // Function to verify the reset token (when the user clicks the reset link)
-  export const verifyResetToken = (token: string): string => {
-    try {
-      const decoded = verify(token, env.jwtSecret) as { email: string };
-      return decoded.email;
-    } catch (error) {
-      throw new AppError('Invalid or expired token', 400);
-    }
+  await prisma.user.update({
+    where: { email },
+    data: { password: hashedNewPassword },
+  });
 };

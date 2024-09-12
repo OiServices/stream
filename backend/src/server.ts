@@ -1,39 +1,83 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import { env } from './config/env.config';
+import helmet from 'helmet';
+import morgan from 'morgan';
 import logger from './config/logger.config';
+import { env } from './config/env.config';
+import adminRoutes from './routes/admin.routes';
+import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/user.routes';
+import organizationRoutes from './routes/organization.routes';
+import startupRoutes from './routes/startup.routes';
+import projectRoutes from './routes/project.routes';
+import transactionRoutes from './routes/transaction.routes';
+import investorRoutes from './routes/investor.routes';
+import { Server } from 'http';
 
 const app = express();
 
-
-app.use(cors());
-
-
-app.get('/health', (req, res) => {
-  logger.info('Server is Up');
-  res.status(200).send({ status: 'OK', timestamp: new Date().toISOString() });
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
-const server = app.listen(env.port, () => {
-  logger.info(`Server running on port ${env.port}`);
-});
+app.use(helmet());
+app.use(morgan('combined', { stream: { write: (message) => logger.info(message.trim()) } }));
 
-
-const gracefulShutdown = () => {
-  logger.info('Shutting down server gracefully...');
-  server.close((err) => {
-    if (err) {
-      logger.error('Error during server shutdown', err);
-      process.exit(1);
-    }
-    logger.info('Server shut down successfully');
-    process.exit(0);
-  });
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
+// const corsOptions = {
+//   origin: ['https://trusted-domain.com', 'https://another-domain.com'],
+//   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+// };
 
-process.on('SIGINT', gracefulShutdown);
+
+app.use(cors(corsOptions));
+
+// Routes
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
+app.use('/organizations', organizationRoutes);
+app.use('/startups', startupRoutes);
+app.use('/projects', projectRoutes);
+app.use('/transactions', transactionRoutes);
+app.use('/investors', investorRoutes);
+app.use('/admin', adminRoutes);
+
+// Health check route
+app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'Server is up and running' });
+});
+
+// 404 Route
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+
+// Start Server
+const server: Server = app.listen(env.port, () => {
+  logger.info(`Server started on port ${env.port}`);
+});
+
+// Graceful Shutdown
+const gracefulShutdown = () => {
+  logger.info('Received shutdown signal. Shutting down gracefully...');
+  server.close(() => {
+    logger.info('Server closed. Exiting process...');
+    process.exit(0);
+  });
+
+  
+  setTimeout(() => {
+    logger.error('Forcefully shutting down...');
+    process.exit(1);
+  }, 10000);
+};
+
 process.on('SIGTERM', gracefulShutdown);
-
-export default app;
+process.on('SIGINT', gracefulShutdown);

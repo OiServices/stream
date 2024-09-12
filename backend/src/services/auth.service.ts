@@ -108,11 +108,10 @@ export const loginUser = async (email: string, password: string): Promise<{ toke
   };
 };
 
-// Verify JWT
-export const verifyAuthToken = (authRequest: AuthRequest): { userId: string; role: string } => {
-  if (!authRequest.user) {
-    throw new Error('Invalid token');
-  }
+// export const verifyAuthToken = (authRequest: AuthRequest): { userId: string; role: string } => {
+//   if (!authRequest.user) {
+//     throw new Error('Invalid token');
+//   }
 
-  return authRequest.user;
-};
+//   return authRequest.user;
+// };
