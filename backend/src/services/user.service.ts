@@ -91,13 +91,30 @@ export const getUsersByRole = async (role: UserRole): Promise<User[]> => {
 
   return users.map(mapPrismaUserToCustomUser);
 };
-
-// Update User Profile (User)
 export const updateProfile = async (
   userId: string,
   profileData: Profile,
   socialMediaLinks: SocialMediaLink[]
 ): Promise<User | null> => {
+  // Ensure profile exists
+  const existingProfile = await prisma.profile.findUnique({
+    where: { userId },
+  });
+
+  if (!existingProfile) {
+    // Create profile if it doesn't exist
+    await prisma.profile.create({
+      data: {
+        userId,
+        firstName: profileData.firstName,
+        lastName: profileData.lastName,
+        bio: profileData.bio,
+        avatar: profileData.avatar,
+      },
+    });
+  }
+
+  // Update user profile and social media links
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: {

@@ -39,14 +39,14 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Routes
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
-app.use('/organizations', organizationRoutes);
-app.use('/startups', startupRoutes);
-app.use('/projects', projectRoutes);
-app.use('/transactions', transactionRoutes);
-app.use('/investors', investorRoutes);
-app.use('/admin', adminRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/organizations', organizationRoutes);
+app.use('/api/startups', startupRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/investors', investorRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health check route
 app.get('/health', (req: Request, res: Response) => {
