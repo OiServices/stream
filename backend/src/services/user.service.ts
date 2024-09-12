@@ -5,6 +5,7 @@ import { User, Profile, SocialMediaLink } from '../interfaces';
 import { AppError } from '../middlewares/error.middleware';
 import { env } from '../config/env.config';
 import { sign, verify } from 'jsonwebtoken';
+import { sendResetPasswordEmail } from '../emails/utils/reset';
 
 // Helper function to map Prisma's UserRole to your custom UserRole
 const mapPrismaRoleToUserRole = (prismaRole: string): UserRole => {
@@ -127,7 +128,7 @@ export const updateProfile = async (
         },
       },
       SocialMediaLink: {
-        deleteMany: { userId }, // Remove existing social media links
+        deleteMany: { userId },
         create: socialMediaLinks.map((link) => ({
           platform: link.platform,
           url: link.url,
@@ -197,15 +198,14 @@ export const generatePasswordResetLink = async (email: string): Promise<void> =>
 
   if (!user) throw new AppError('User not found', 404);
 
-  
   const resetToken = sign(
     { email: user.email },
     env.jwtSecret,
     { expiresIn: '1h' }
   );
 
-  //email service
-  console.log(`Password reset link: https://example.com/reset-password?token=${resetToken}`);
+  // Reset Email
+  await sendResetPasswordEmail(email, resetToken);
 };
 
 // Function to verify the reset token

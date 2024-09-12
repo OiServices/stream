@@ -4,9 +4,10 @@ import { generateToken } from '../config/jwt.config';
 import { UserRole } from '../enums';
 import { AuthRequest } from '../middlewares';
 import { User } from '../interfaces';
+import { sendWelcomeEmail } from '../emails/utils/welcome';
 
 // Helper function to map Prisma's UserRole to the custom enum UserRole
-const mapPrismaRoleToUserRole = (prismaRole: string): UserRole => {
+export const mapPrismaRoleToUserRole = (prismaRole: string): UserRole => {
   switch (prismaRole) {
     case 'ADMIN':
       return UserRole.ADMIN;
@@ -22,7 +23,7 @@ const mapPrismaRoleToUserRole = (prismaRole: string): UserRole => {
 };
 
 // Helper function to map Prisma's user to the custom User interface
-const mapPrismaUserToCustomUser = (prismaUser: any): User => {
+export const mapPrismaUserToCustomUser = (prismaUser: any): User => {
   return {
     id: prismaUser.id,
     email: prismaUser.email,
@@ -41,7 +42,7 @@ const mapPrismaUserToCustomUser = (prismaUser: any): User => {
   };
 };
 
-//Register User
+// Register User with welcome email functionality
 export const registerUser = async (email: string, password: string, role: UserRole): Promise<User> => {
   const existingUser = await prisma.user.findUnique({
     where: { email },
@@ -70,7 +71,12 @@ export const registerUser = async (email: string, password: string, role: UserRo
     },
   });
 
-  return mapPrismaUserToCustomUser(newUser);
+  const customUser = mapPrismaUserToCustomUser(newUser);
+
+  
+  await sendWelcomeEmail(customUser);
+
+  return customUser;
 };
 
 // Login User
@@ -108,6 +114,7 @@ export const loginUser = async (email: string, password: string): Promise<{ toke
   };
 };
 
+// Optional: Verify auth token logic
 // export const verifyAuthToken = (authRequest: AuthRequest): { userId: string; role: string } => {
 //   if (!authRequest.user) {
 //     throw new Error('Invalid token');

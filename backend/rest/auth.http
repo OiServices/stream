@@ -3,7 +3,7 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "admin@example.com",
+  "email": "vp.victorpreston@gmail.com",
   "password": "admin123",
   "role": "ADMIN"
 }
@@ -13,7 +13,7 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "investor@example.com",
+  "email": "investor7@example.com",
   "password": "investor123",
   "role": "INVESTOR"
 }

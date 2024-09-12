@@ -30,7 +30,7 @@ const corsOptions = {
 };
 
 // const corsOptions = {
-//   origin: ['https://trusted-domain.com', 'https://another-domain.com'],
+//   origin: ['https://.com', 'https://.com'],
 //   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 //   allowedHeaders: ['Content-Type', 'Authorization'],
 // };
@@ -38,7 +38,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Routes
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/organizations', organizationRoutes);
@@ -48,23 +48,23 @@ app.use('/api/transactions', transactionRoutes);
 app.use('/api/investors', investorRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Health check route
+
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'Server is up and running' });
 });
 
-// 404 Route
+
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
 
-// Start Server
+
 const server: Server = app.listen(env.port, () => {
   logger.info(`Server started on port ${env.port}`);
 });
 
-// Graceful Shutdown
+
 const gracefulShutdown = () => {
   logger.info('Received shutdown signal. Shutting down gracefully...');
   server.close(() => {
