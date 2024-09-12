@@ -12,4 +12,5 @@ export const env = {
   emailUser: process.env.EMAIL_USER || '',
   emailPass: process.env.EMAIL_PASS || '',
   adminEmail: process.env.ADMIN_EMAIL || '',
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
 };
