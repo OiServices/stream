@@ -13,7 +13,7 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "investor7@example.com",
+  "email": "investor9@example.com",
   "password": "investor123",
   "role": "INVESTOR"
 }
