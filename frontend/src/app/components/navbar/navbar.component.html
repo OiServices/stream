@@ -1,1 +1,37 @@
-<p>navbar works!</p>
+<header class="py-2 px-2 sm:px-10 bg-white z-50 relative">
+  <div class='max-w-7xl w-full mx-auto flex flex-wrap items-center gap-4'>
+    <!-- Replaced the image logo with text -->
+    <a [routerLink]="['/']" class="text-3xl font-bold text-blue-800">Stream</a>
+
+    <div id="collapseMenu" class='max-lg:hidden lg:!block max-lg:fixed max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-40 max-lg:before:inset-0'>
+      <button id="toggleClose" class='lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3'>
+        <!-- Close icon here -->
+      </button>
+
+      <ul class='lg:!flex lg:ml-12 lg:space-x-6 max-lg:space-y-6 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-4 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
+        <li class='max-lg:border-b max-lg:py-2 px-3'>
+          <a  href="#about" class='hover:text-blue-600 block font-semibold transition-all'>About</a>
+        </li>
+        <li class='max-lg:border-b max-lg:py-2 px-3'>
+          <a href="#features" class='hover:text-blue-600 block font-semibold transition-all'>Features</a>
+        </li>
+        <li class='max-lg:border-b max-lg:py-2 px-3'>
+          <a [routerLink]="['/contact']" class='hover:text-blue-600 block font-semibold transition-all'>Contact</a>
+        </li>
+        <li class='max-lg:border-b max-lg:py-2 px-3'>
+          <a [routerLink]="['/login']" class='hover:text-blue-600 block font-semibold transition-all'>Login</a>
+        </li>
+        <li class='max-lg:border-b max-lg:py-2 px-3'>
+          <a [routerLink]="['/signup']" class='hover:text-blue-600 block font-semibold transition-all'>Sign Up</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class='flex ml-auto'>
+      <button class='bg-blue-100 hover:bg-blue-200 flex items-center transition-all font-semibold rounded-md px-5 py-3'>
+        <a [routerLink]="['/register']">Get started</a>
+        <i class="pi pi-arrow-right ml-1"></i>
+      </button>
+    </div>
+  </div>
+</header>
