@@ -1,0 +1,23 @@
+<div class="flex items-center justify-between p-2 rounded-lg shadow-lg"
+  [ngClass]="{
+    'bg-green-500 text-white': type === 'success',
+    'bg-red-500 text-white': type === 'error',
+    'bg-yellow-500 text-yellow-900': type === 'warning'
+  }"
+  role="alert">
+
+  <div class="flex items-center">
+    <i class="pi mr-2" 
+      [ngClass]="{
+        'pi-check-circle text-white': type === 'success',
+        'pi-exclamation-circle text-white': type === 'error',
+        'pi-exclamation-triangle text-yellow-900': type === 'warning'
+      }"
+      style="font-size: 1.5rem; margin-top: -20px; color: white;"></i>
+    <strong class="font-bold text-sm mr-2 text-white" style="margin-top: -20px;">{{ type | titlecase }}!</strong>
+    <span class="text-sm text-white" style="margin-top: -20px;">{{ message }}</span>
+  </div>
+
+  <i class="pi pi-times w-7 h-7 flex items-center justify-center rounded-full transition-all cursor-pointer text-white"
+    (click)="handleClose()"></i>
+</div>
