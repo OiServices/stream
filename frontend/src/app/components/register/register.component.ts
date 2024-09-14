@@ -19,8 +19,9 @@ export class RegisterComponent {
   passwordMismatch: boolean = false;
   selectedRole: string = '';
   notificationMessage: string = '';
-  notificationType: 'success' | 'error' | 'warning' = 'success';
+  notificationType: 'success' | 'error' = 'success';
   showNotification: boolean = false;
+  buttonLoading: boolean = false;
 
   roles = [
     { displayName: 'Investor', value: 'INVESTOR' },
@@ -47,40 +48,41 @@ export class RegisterComponent {
    */
   onRegister(event: Event, password: string, confirmPassword: string) {
     event.preventDefault();
+    this.buttonLoading = true;
 
     const emailInput = (document.querySelector('input[name="email"]') as HTMLInputElement).value;
 
-    
     if (!this.selectedRole || !emailInput || !password || !confirmPassword) {
       this.showNotificationMessage('All fields are required.', 'error');
+      this.buttonLoading = false;
       return;
     }
 
     if (password !== confirmPassword) {
       this.showNotificationMessage('Passwords do not match.', 'error');
       this.passwordMismatch = true;
+      this.buttonLoading = false;
       return;
     }
 
     if (this.passwordStrength === 'weak') {
       this.showNotificationMessage('Password too weak!', 'error');
+      this.buttonLoading = false;
       return;
     }
 
     this.authService.register(emailInput, password, this.selectedRole).subscribe({
       next: (response) => {
-        this.showNotificationMessage('Registration successful! Redirecting to login...', 'success');
+        this.showNotificationMessage('Registration successful! Redirecting', 'success');
         setTimeout(() => {
           this.router.navigate(['/login']);
+          this.buttonLoading = false;
         }, 2000);
       },
       error: (err) => {
         console.error('Error during registration', err);
-        if (err.error?.message.includes('already registered')) {
-          this.showNotificationMessage('User already registered. Please log in.', 'error');
-        } else {
-          this.showNotificationMessage('User already registered. Please log in.', 'error');
-        }
+        this.showNotificationMessage('User already registered. log in.', 'error');
+        this.buttonLoading = false;
       }
     });
   }
@@ -108,7 +110,7 @@ export class RegisterComponent {
     }
   }
 
-  showNotificationMessage(message: string, type: 'success' | 'error' | 'warning') {
+  showNotificationMessage(message: string, type: 'success' | 'error') {
     this.notificationMessage = message;
     this.notificationType = type;
     this.showNotification = true;

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class NotificationComponent {
   @Input() message: string = '';
-  @Input() type: 'success' | 'error' | 'warning' = 'success';
+  @Input() type: 'success' | 'error' = 'success';
   @Output() close = new EventEmitter<void>();
 
   handleClose() {

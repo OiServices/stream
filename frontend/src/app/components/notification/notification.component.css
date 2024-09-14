@@ -1,7 +1,42 @@
-div {
-    margin-top: 20px;
-}
+.top-right-notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    width: auto;
+    max-width: 400px;
+    margin-bottom: 10px;
+  }
   
-.flex {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}  
+  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .hover-bg {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .text-white {
+    color: white;
+  }
+  
+  .bg-green-600 {
+    background-color: #38a169;
+  }
+  
+  .bg-green-700:hover {
+    background-color: #2f855a;
+  }
+  
+  .bg-red-600 {
+    background-color: #e53e3e;
+  }
+  
+  .bg-red-700:hover {
+    background-color: #c53030;
+  }
+  
