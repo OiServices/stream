@@ -1,37 +1,61 @@
-<header class="py-2 px-2 sm:px-10 bg-white z-50 relative">
-  <div class='max-w-7xl w-full mx-auto flex flex-wrap items-center gap-4'>
-    <!-- Replaced the image logo with text -->
+<header class="py-2 px-2 sm:px-10 bg-white z-50 fixed w-full top-0 left-0 shadow-md">
+  <div class="max-w-7xl w-full mx-auto flex items-center justify-between gap-4">
+    <!-- Logo -->
     <a [routerLink]="['/']" class="text-3xl font-bold text-blue-800">Stream</a>
 
-    <div id="collapseMenu" class='max-lg:hidden lg:!block max-lg:fixed max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-40 max-lg:before:inset-0'>
-      <button id="toggleClose" class='lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3'>
-        <!-- Close icon here -->
-      </button>
+    <!-- Mobile -->
+    <button id="toggleMenu" class="lg:hidden p-3 rounded-md focus:outline-none ml-auto" (click)="toggleMenu()">
+      <i class="pi pi-bars text-2xl"></i>
+    </button>
 
-      <ul class='lg:!flex lg:ml-12 lg:space-x-6 max-lg:space-y-6 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-4 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
-        <li class='max-lg:border-b max-lg:py-2 px-3'>
-          <a  href="#about" class='hover:text-blue-600 block font-semibold transition-all'>About</a>
-        </li>
-        <li class='max-lg:border-b max-lg:py-2 px-3'>
-          <a href="#features" class='hover:text-blue-600 block font-semibold transition-all'>Features</a>
-        </li>
-        <li class='max-lg:border-b max-lg:py-2 px-3'>
-          <a [routerLink]="['/contact']" class='hover:text-blue-600 block font-semibold transition-all'>Contact</a>
-        </li>
-        <li class='max-lg:border-b max-lg:py-2 px-3'>
-          <a [routerLink]="['/login']" class='hover:text-blue-600 block font-semibold transition-all'>Login</a>
-        </li>
-        <li class='max-lg:border-b max-lg:py-2 px-3'>
-          <a [routerLink]="['/signup']" class='hover:text-blue-600 block font-semibold transition-all'>Sign Up</a>
-        </li>
-      </ul>
+    <!-- Menu -->
+    <div class="hidden lg:flex lg:space-x-12 ml-auto">
+      <a [routerLink]="['/']" class="hover:text-blue-600 block font-semibold transition-all">Home</a>
+      <a href="#about" class="hover:text-blue-600 block font-semibold transition-all">About</a>
+      <a href="#features" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
+      <a [routerLink]="['/contact']" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
+      <a [routerLink]="['/login']" class="hover:text-blue-600 block font-semibold transition-all">Login</a>
+      <a [routerLink]="['/register']" class="hover:text-blue-600 block font-semibold transition-all">Sign Up</a>
     </div>
 
-    <div class='flex ml-auto'>
-      <button class='bg-blue-100 hover:bg-blue-200 flex items-center transition-all font-semibold rounded-md px-5 py-3'>
+    <!-- "Get Started" -->
+    <div class="ml-auto lg:block hidden">
+      <button class="bg-blue-100 hover:bg-blue-200 flex items-center transition-all font-semibold rounded-md px-5 py-3">
         <a [routerLink]="['/register']">Get started</a>
-        <i class="pi pi-arrow-right ml-1"></i>
+        <i class="pi pi-arrow-circle-right ml-1"></i>
       </button>
+    </div>
+
+    <div *ngIf="menuOpen" class="fixed inset-0 z-50 flex bg-black bg-opacity-50">
+      <div class="w-2/3 max-w-xs bg-white h-full shadow-md p-4 transform transition-transform duration-300 ease-in-out">
+        
+        <button id="toggleClose" class="lg:hidden p-3 rounded-full bg-gray-100" (click)="toggleMenu()">
+          <i class="pi pi-times text-2xl"></i>
+        </button>
+        
+        <ul class="mt-8 space-y-6">
+          <li>
+            <a [routerLink]="['/']" class="hover:text-blue-600 block font-semibold transition-all">Home</a>
+          </li>
+          <li>
+            <a href="#about" class="hover:text-blue-600 block font-semibold transition-all">About</a>
+          </li>
+          <li>
+            <a href="#features" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
+          </li>
+          <li>
+            <a [routerLink]="['/contact']" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
+          </li>
+          <li>
+            <a [routerLink]="['/login']" class="hover:text-blue-600 block font-semibold transition-all">Login</a>
+          </li>
+          <li>
+            <a [routerLink]="['/register']" class="hover:text-blue-600 block font-semibold transition-all">Sign Up</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="flex-grow" (click)="toggleMenu()"></div>
     </div>
   </div>
 </header>
