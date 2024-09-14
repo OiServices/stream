@@ -9,25 +9,61 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [NavbarComponent, FooterComponent, CommonModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   loading: boolean = true;
-  passwordVisible: boolean = false;
-  confirmPasswordVisible: boolean = false;
+  passwordMismatch: boolean = false;
+  selectedRole: string = '';
+  roles: string[] = ['Investor', 'Startup', 'Organization'];
+  passwordStrength: string = '';
+  passwordCriteria: { [key: string]: boolean } = {
+    length: false,
+    lowercase: false,
+    uppercase: false,
+    numeric: false
+  };
 
   constructor() {
-    // Simulate a loading delay
     setTimeout(() => {
       this.loading = false;
-    }, 500); // Adjust the timeout duration (in ms) as per your preference
+    }, 500);
   }
 
-  togglePasswordVisibility() {
-    this.passwordVisible = !this.passwordVisible;
+  onRegister(password: string, confirmPassword: string) {
+    if (password !== confirmPassword) {
+      this.passwordMismatch = true;
+    } else if (this.passwordStrength === 'weak') {
+      this.showNotification("Password too weak!");
+    } else {
+      this.passwordMismatch = false;
+    }
   }
 
-  toggleConfirmPasswordVisibility() {
-    this.confirmPasswordVisible = !this.confirmPasswordVisible;
+  selectRole(role: string) {
+    this.selectedRole = role;
+  }
+
+  evaluatePasswordStrength(password: string) {
+    this.passwordCriteria['length'] = password.length >= 8;
+    this.passwordCriteria['lowercase'] = /[a-z]/.test(password);
+    this.passwordCriteria['uppercase'] = /[A-Z]/.test(password);
+    this.passwordCriteria['numeric'] = /[0-9]/.test(password);
+
+    const strength = Object.values(this.passwordCriteria).filter(v => v).length;
+
+    if (password.length === 0) {
+      this.passwordStrength = '';
+    } else if (strength <= 2) {
+      this.passwordStrength = 'weak';
+    } else if (strength === 3) {
+      this.passwordStrength = 'medium';
+    } else {
+      this.passwordStrength = 'strong';
+    }
+  }
+
+  showNotification(message: string) {
+    alert(message);
   }
 }

@@ -1,13 +1,11 @@
 <app-navbar></app-navbar>
 
-<!-- Loader -->
 <div *ngIf="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
   <div class="loader">
-    <i class="pi pi-spin pi-spinner text-4xl text-blue-400"></i> <!-- Prime Icons Spinner -->
+    <i class="pi pi-spin pi-spinner text-4xl text-blue-400"></i>
   </div>
 </div>
 
-<!-- Registration form content -->
 <div *ngIf="!loading" class="font-[sans-serif] bg-white flex items-center justify-center md:h-screen py-16">
   <div class="shadow-[0_2px_16px_-3px_rgba(6,81,237,0.3)] max-w-6xl max-md:max-w-lg rounded-md p-6">
     <div class="grid md:grid-cols-2 items-center gap-8">
@@ -15,12 +13,21 @@
         <img src="assets/register.jpg" class="lg:w-11/12 w-full object-cover" alt="register-image" />
       </div>
 
-      <form class="md:max-w-md w-full mx-auto">
+      <form class="md:max-w-md w-full mx-auto" (submit)="onRegister(password.value, confirmPassword.value)">
         <div class="mb-12">
           <h3 class="text-4xl font-extrabold text-black">Register</h3>
         </div>
 
-        <!-- Email Input -->
+        <div class="mb-8">
+          <p class="block text-sm font-semibold text-gray-700 mb-4">Register as</p>
+          <div class="flex space-x-4">
+            <div *ngFor="let role of roles" class="flex items-center">
+              <input type="radio" name="role" [value]="role" (change)="selectRole(role)" class="mr-2">
+              <label class="text-gray-800">{{ role }}</label>
+            </div>
+          </div>
+        </div>
+
         <div>
           <div class="relative flex items-center">
             <input name="email" type="text" required class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-3 outline-none" placeholder="Enter email" />
@@ -28,25 +35,39 @@
           </div>
         </div>
 
-        <!-- Password Input -->
         <div class="mt-8">
           <div class="relative flex items-center">
-            <input name="password" [type]="passwordVisible ? 'text' : 'password'" required class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-3 outline-none" placeholder="Enter password" />
-            <i (click)="togglePasswordVisibility()" class="absolute right-2 text-gray-400 cursor-pointer" [ngClass]="passwordVisible ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+            <input #password name="password" (input)="evaluatePasswordStrength(password.value)" type="password" required class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-3 outline-none" placeholder="Enter password" />
           </div>
         </div>
 
-        <!-- Confirm Password Input -->
         <div class="mt-8">
           <div class="relative flex items-center">
-            <input name="confirmPassword" [type]="confirmPasswordVisible ? 'text' : 'password'" required class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-3 outline-none" placeholder="Confirm password" />
-            <i (click)="toggleConfirmPasswordVisibility()" class="absolute right-2 text-gray-400 cursor-pointer" [ngClass]="confirmPasswordVisible ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+            <input #confirmPassword name="confirmPassword" type="password" required class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-3 outline-none" placeholder="Confirm password" />
           </div>
+          <p *ngIf="passwordMismatch" class="text-red-500 text-xs mt-2">Passwords do not match.</p>
         </div>
 
-        <!-- Register Button -->
+        <div class="mt-4">
+          <div class="w-full h-2 rounded bg-gray-300">
+            <div [ngClass]="{
+              'bg-red-500': passwordStrength === 'weak',
+              'bg-orange-500': passwordStrength === 'medium',
+              'bg-green-500': passwordStrength === 'strong'
+            }" [style.width]="passwordStrength === 'weak' ? '33%' : passwordStrength === 'medium' ? '66%' : '100%'" class="h-full rounded transition-all"></div>
+          </div>
+          <p class="text-xs mt-2" [ngClass]="{
+              'text-gray-500': passwordStrength === '',
+              'text-red-500': passwordStrength === 'weak',
+              'text-orange-500': passwordStrength === 'medium',
+              'text-green-500': passwordStrength === 'strong'
+            }">
+            {{ passwordStrength === '' ? 'Password strength' : passwordStrength | titlecase }}
+          </p>
+        </div>
+
         <div class="mt-12">
-          <button type="button" class="w-full shadow-xl py-2.5 px-5 text-sm font-semibold rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none">
+          <button type="submit" class="w-full shadow-xl py-2.5 px-5 text-sm font-semibold rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none">
             Register
           </button>
           <p class="text-gray-800 text-sm text-center mt-6">Already have an account? 
