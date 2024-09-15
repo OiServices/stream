@@ -3,12 +3,12 @@
 
   <div class="flex flex-wrap items-center cursor-pointer">
     <div class="relative">
-      <img src='assets/profile.jpg' class="w-12 h-12 rounded-full border-white" />
+      <img [src]="avatarUrl" class="w-12 h-12 rounded-full border-white" />
       <span class="h-3 w-3 rounded-full bg-green-600 border-2 border-white block absolute bottom-0 right-0"></span>
     </div>
 
     <div class="ml-4">
-      <p class="text-sm text-[#3949ab] font-semibold">John Doe</p>
+      <p class="text-sm text-[#3949ab] font-semibold">{{ userName }}</p>
       <p class="text-xs text-gray-500 mt-0.5">Admin</p>
     </div>
   </div>
@@ -87,3 +87,4 @@
     </li>
   </ul>
 </nav>
+

@@ -13,4 +13,24 @@
       padding-top: 80px;
     }
 }
-  
+
+.notification-bell {
+  position: relative;
+}
+
+.notification-bell .badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  min-height: 16px;
+}

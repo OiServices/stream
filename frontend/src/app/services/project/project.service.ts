@@ -78,6 +78,14 @@ export class ProjectService {
     return this.http.patch(`${this.API_URL}/${projectId}/adjust-amount`, { newAmount }, { headers });
   }
 
+   /**
+   * Get all projects (Public)
+   */
+   getAllProjects(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get(`${this.API_URL}`, { headers });
+  }
+
   /**
    * Helper method to get authorization headers with the JWT token
    */

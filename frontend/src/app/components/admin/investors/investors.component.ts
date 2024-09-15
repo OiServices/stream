@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InvestorService } from '../../../services/investor/investor.service';
-import { InvestorProfile } from '../../../interfaces/investor-profile';
+import { UserService } from '../../../services/user/user.service';
 import { User } from '../../../interfaces/user';
 import { NotificationComponent } from '../../../components/notification/notification.component';
 
@@ -17,22 +16,22 @@ export class InvestorsComponent implements OnInit {
   selectedInvestor: User | null = null;
   displayInvestorModal: boolean = false;
 
-  // Notification properties
   notificationMessage: string = '';
   notificationType: 'success' | 'error' = 'success';
   showNotification: boolean = false;
 
-  constructor(private investorService: InvestorService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.loadInvestors();
   }
 
   loadInvestors(): void {
-    this.investorService.getAllInvestors().subscribe(
-      (investors: User[]) => {
-        // Filter out deleted investors
-        this.investors = investors.filter((investor) => !investor.isDeleted);
+    this.userService.getAllUsers().subscribe(
+      (users: User[]) => {
+        this.investors = users.filter(
+          (user) => user.role === 'INVESTOR' && !user.isDeleted
+        );
       },
       (error) => {
         this.showError('Failed to load investors');
@@ -47,6 +46,31 @@ export class InvestorsComponent implements OnInit {
 
   closeModal(): void {
     this.displayInvestorModal = false;
+  }
+
+  toggleUserStatus(investor: User): void {
+    const newStatus = !investor.isActivated;
+    this.userService.setAccountStatus(investor.id, newStatus).subscribe(
+      () => {
+        investor.isActivated = newStatus;
+        this.showSuccess(`Investor ${newStatus ? 'activated' : 'deactivated'} successfully`);
+      },
+      (error) => {
+        this.showError('Failed to update investor status');
+      }
+    );
+  }
+
+  deleteInvestor(investorId: string): void {
+    this.userService.deleteUser(investorId).subscribe(
+      () => {
+        this.investors = this.investors.filter((investor) => investor.id !== investorId);
+        this.showSuccess('Investor deleted successfully');
+      },
+      (error) => {
+        this.showError('Failed to delete investor');
+      }
+    );
   }
 
   showSuccess(message: string): void {

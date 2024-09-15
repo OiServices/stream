@@ -1,8 +1,7 @@
-<nav class="bg-gray-900 shadow-md w-full h-[80px] py-4 px-6 flex items-center justify-between">
+<!-- <nav class="bg-gray-900 shadow-md w-full h-[80px] py-4 px-6 flex items-center justify-between">
   <div></div>
 
   <div class="flex items-center space-x-6">
-
     <a [routerLink]="['/admin']" class="bg-[#3949ab] flex items-center px-4 py-2 rounded text-white font-semibold hover:bg-[#2c3881] transition duration-300">
       <i class="pi pi-plus-circle text-white mr-2"></i>
       <span>Add Admin</span>
@@ -21,8 +20,45 @@
     </a>
     
     <div class="relative cursor-pointer">
-      <img src='assets/profile.jpg' class="w-10 h-10 rounded-full border-white" />
+      <img [src]="avatarUrl" alt="Profile Image" class="w-10 h-10 rounded-full border-white" />
+      <span class="h-3 w-3 rounded-full bg-green-600 border-2 border-white block absolute bottom-0 right-0"></span>
+    </div>
+  </div>
+</nav> -->
+
+
+<nav class="bg-gray-900 shadow-md w-full h-[80px] py-4 px-6 flex items-center justify-between">
+  <div></div>
+
+  <div class="flex items-center space-x-6">
+    <a [routerLink]="['/admin']" class="bg-[#3949ab] flex items-center px-4 py-2 rounded text-white font-semibold hover:bg-[#2c3881] transition duration-300">
+      <i class="pi pi-plus-circle text-white mr-2"></i>
+      <span>Add Admin</span>
+    </a>
+
+    <a [routerLink]="['/admin/dashboard']" class="bg-[#3949ab] w-10 h-10 flex items-center justify-center rounded hover:bg-[#2c3881] transition duration-300">
+      <i class="pi pi-objects-column text-white text-xl"></i>
+    </a>
+
+    <!-- Notification Bell with Count Badge -->
+    <div class="relative">
+      <a [routerLink]="['/admin']" class="bg-[#3949ab] w-10 h-10 flex items-center justify-center rounded hover:bg-[#2c3881] transition duration-300 relative">
+        <i class="pi pi-bell text-white text-xl"></i>
+      </a>
+      <span class="absolute bottom-0 right-0 bg-red-600 text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center">
+        3
+      </span>
+    </div>
+
+    <a [routerLink]="['/admin/profile']" class="bg-[#3949ab] w-10 h-10 flex items-center justify-center rounded hover:bg-[#2c3881] transition duration-300">
+      <i class="pi pi-spin pi-cog text-white text-xl"></i>
+    </a>
+    
+    <!-- Profile Image -->
+    <div class="relative cursor-pointer">
+      <img [src]="avatarUrl" alt="Profile Image" class="w-10 h-10 rounded-full border-white" />
       <span class="h-3 w-3 rounded-full bg-green-600 border-2 border-white block absolute bottom-0 right-0"></span>
     </div>
   </div>
 </nav>
+
