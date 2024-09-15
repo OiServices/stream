@@ -1,0 +1,16 @@
+@media (max-width: 768px) {
+    .sidebar {
+      display: none;
+    }
+  
+    nav {
+      left: 0;
+      width: 100%;
+    }
+  
+    .admin-content {
+      margin-left: 0;
+      padding-top: 80px;
+    }
+}
+  
