@@ -52,7 +52,10 @@
 
         <div class="mt-12">
           <button type="button" (click)="onLogin()" [disabled]="isSubmitting" class="w-full shadow-xl py-2.5 px-5 text-sm font-semibold rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none">
-            <ng-container *ngIf="!isSubmitting">Sign in</ng-container>
+            <ng-container *ngIf="!isSubmitting">
+              Sign in
+              <i class="pi pi-sign-in ml-1" style="font-size: 1.0rem;"></i>
+            </ng-container>
             <ng-container *ngIf="isSubmitting">
               <i class="pi pi-spin pi-spinner"></i> Signing in...
             </ng-container>

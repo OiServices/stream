@@ -1,59 +1,80 @@
 <header class="py-2 px-2 sm:px-10 bg-white z-50 fixed w-full top-0 left-0 shadow-md">
   <div class="max-w-7xl w-full mx-auto flex items-center justify-between gap-4">
     <!-- Logo -->
-    <a [routerLink]="['/']" class="text-3xl font-bold text-blue-800">Stream</a>
+    <a [routerLink]="isAuthenticated ? '/home' : '/'" class="text-3xl font-bold text-blue-800">Stream</a>
 
-    <!-- Mobile -->
+    <!-- Mobile Menu Button -->
     <button id="toggleMenu" class="lg:hidden p-3 rounded-md focus:outline-none ml-auto" (click)="toggleMenu()">
       <i class="pi pi-bars text-2xl"></i>
     </button>
 
-    <!-- Menu -->
+    <!-- Links -->
     <div class="hidden lg:flex lg:space-x-12 ml-auto">
-      <a [routerLink]="['/']" class="hover:text-blue-600 block font-semibold transition-all">Home</a>
-      <a href="#about" class="hover:text-blue-600 block font-semibold transition-all">About</a>
-      <a href="#features" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
-      <a [routerLink]="['/contact']" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
-      <a [routerLink]="['/login']" class="hover:text-blue-600 block font-semibold transition-all">Login</a>
+      <a [routerLink]="['/projects']" *ngIf="isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Projects</a>
+      <a [routerLink]="['/investors']" *ngIf="isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Investors</a>
+      <a [routerLink]="['/startups']" *ngIf="isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Startups</a>
+      <a [routerLink]="['/organizations']" *ngIf="isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Organizations</a>
+      
+      <a [routerLink]="['/']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Home</a>
+      <a href="#about" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">About</a>
+      <a href="#features" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
+      <a [routerLink]="['/contact']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
+      <a [routerLink]="['/login']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Login</a>
     </div>
 
-    <!-- "Get Started" -->
+    <!-- Profile Image or Get Started Button -->
     <div class="ml-auto lg:block hidden">
-      <button class="bg-blue-100 hover:bg-blue-200 flex items-center transition-all font-semibold rounded-md px-5 py-3">
-        <a [routerLink]="['/register']">Get started</a>
-        <i class="pi pi-arrow-circle-right ml-1"></i>
-      </button>
+      <ng-container *ngIf="isAuthenticated; else guestLinks">
+        <!-- Profile Image -->
+        <img [src]="profileImageUrl" alt="Profile" class="w-12 h-12 rounded-full cursor-pointer items-center">
+      </ng-container>
+      <ng-template #guestLinks>
+        <!-- Get Started Button for Guest -->
+        <button class="bg-blue-100 hover:bg-blue-200 flex items-center transition-all font-semibold rounded-md px-5 py-3">
+          <a [routerLink]="['/register']">Get started</a>
+          <i class="pi pi-arrow-circle-right ml-1"></i>
+        </button>
+      </ng-template>
     </div>
 
+    <!-- Mobile Menu -->
     <div *ngIf="menuOpen" class="fixed inset-0 z-50 flex bg-black bg-opacity-50">
       <div class="w-2/3 max-w-xs bg-white h-full shadow-md p-4 transform transition-transform duration-300 ease-in-out">
-        
         <button id="toggleClose" class="lg:hidden p-3 rounded-full bg-gray-100" (click)="toggleMenu()">
           <i class="pi pi-times text-2xl"></i>
         </button>
-        
         <ul class="mt-8 space-y-6">
-          <li>
+          <!-- Dynamic Links in Mobile -->
+          <li *ngIf="isAuthenticated">
+            <a [routerLink]="['/projects']" class="hover:text-blue-600 block font-semibold transition-all">Projects</a>
+          </li>
+          <li *ngIf="isAuthenticated">
+            <a [routerLink]="['/investors']" class="hover:text-blue-600 block font-semibold transition-all">Investors</a>
+          </li>
+          <li *ngIf="isAuthenticated">
+            <a [routerLink]="['/startups']" class="hover:text-blue-600 block font-semibold transition-all">Startups</a>
+          </li>
+          <li *ngIf="isAuthenticated">
+            <a [routerLink]="['/organizations']" class="hover:text-blue-600 block font-semibold transition-all">Organizations</a>
+          </li>
+
+          <li *ngIf="!isAuthenticated">
             <a [routerLink]="['/']" class="hover:text-blue-600 block font-semibold transition-all">Home</a>
           </li>
-          <li>
+          <li *ngIf="!isAuthenticated">
             <a href="#about" class="hover:text-blue-600 block font-semibold transition-all">About</a>
           </li>
-          <li>
+          <li *ngIf="!isAuthenticated">
             <a href="#features" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
           </li>
-          <li>
+          <li *ngIf="!isAuthenticated">
             <a [routerLink]="['/contact']" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
           </li>
-          <li>
+          <li *ngIf="!isAuthenticated">
             <a [routerLink]="['/login']" class="hover:text-blue-600 block font-semibold transition-all">Login</a>
-          </li>
-          <li>
-            <a [routerLink]="['/register']" class="hover:text-blue-600 block font-semibold transition-all">Sign Up</a>
           </li>
         </ul>
       </div>
-      
       <div class="flex-grow" (click)="toggleMenu()"></div>
     </div>
   </div>
