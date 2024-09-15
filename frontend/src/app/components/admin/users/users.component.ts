@@ -4,9 +4,19 @@ import { UserService } from '../../../services/user/user.service';
 import { RouterLink } from '@angular/router';
 import { User } from '../../../interfaces/user';
 import { NotificationComponent } from '../../../components/notification/notification.component';
+import { trigger, style, animate, transition } from '@angular/animations';
+
 
 @Component({
   selector: 'app-users',
+  animations: [
+    trigger('fadeInAnimation', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms ease-in', style({ opacity: 1 }))
+      ])
+    ])
+  ],
   standalone: true,
   imports: [CommonModule, RouterLink, NotificationComponent],
   templateUrl: './users.component.html',
@@ -17,7 +27,6 @@ export class UsersComponent implements OnInit {
   selectedUser: User | null = null;
   displayUserModal: boolean = false;
 
-  // Notification properties
   notificationMessage: string = '';
   notificationType: 'success' | 'error' = 'success';
   showNotification: boolean = false;
@@ -31,12 +40,25 @@ export class UsersComponent implements OnInit {
   loadUsers(): void {
     this.userService.getAllUsers().subscribe(
       (users: User[]) => {
-        this.users = users.filter(user => !user.isDeleted);
+        this.users = users.filter(user => user.role !== 'ADMIN' && !user.isDeleted);
       },
       (error) => {
         this.showError('Failed to load users');
       }
     );
+  }
+
+  getRoleDisplay(role: string): string {
+    switch (role) {
+      case 'INVESTOR':
+        return 'Investor';
+      case 'STARTUP':
+        return 'Startup';
+      case 'ORGANIZATION':
+        return 'Organization';
+      default:
+        return 'User';
+    }
   }
 
   viewUser(user: User): void {
@@ -73,23 +95,23 @@ export class UsersComponent implements OnInit {
     );
   }
 
-  // Show success notification
+  
   showSuccess(message: string): void {
     this.notificationMessage = message;
     this.notificationType = 'success';
     this.showNotification = true;
+    setTimeout(() => this.showNotification = false, 3000);
   }
 
-  // Show error notification
+  
   showError(message: string): void {
     this.notificationMessage = message;
     this.notificationType = 'error';
     this.showNotification = true;
+    setTimeout(() => this.showNotification = false, 3000);
   }
 
-  // Close notification
   closeNotification(): void {
     this.showNotification = false;
   }
 }
-

@@ -1,4 +1,3 @@
-<!-- Notification -->
 <div *ngIf="showNotification">
   <app-notification
     [message]="notificationMessage"
@@ -7,7 +6,6 @@
   </app-notification>
 </div>
 
-<!-- Projects Table -->
 <div class="font-[sans-serif] overflow-x-auto px-6">
   <table class="min-w-full bg-white shadow-lg rounded-lg">
     <thead class="bg-gray-100">
@@ -16,7 +14,7 @@
           <i class="pi pi-file mr-2"></i> Title
         </th>
         <th class="p-2 text-left text-sm font-semibold text-black">
-          <i class="pi pi-money-bill mr-2"></i> Target Amount
+          <i class="pi pi-money-bill mr-2"></i> Target
         </th>
         <th class="p-2 text-left text-sm font-semibold text-black">
           <i class="pi pi-wallet mr-2"></i> Current Amount
@@ -25,7 +23,7 @@
           <i class="pi pi-tag mr-2"></i> Category
         </th>
         <th class="p-2 text-left text-sm font-semibold text-black">
-          <i class="pi pi-github mr-2"></i> GitHub Link
+          <i class="pi pi-github mr-2"></i> GitHub
         </th>
         <th class="p-2 text-left text-sm font-semibold text-black">
           <i class="pi pi-cog mr-2"></i> Actions
@@ -36,12 +34,13 @@
     <tbody>
       <tr *ngFor="let project of projects" class="odd:bg-blue-50">
         <td class="p-2 text-sm text-black">{{ project.title }}</td>
-        <td class="p-2 text-sm text-black">{{ project.targetAmount | currency }}</td>
-        <td class="p-2 text-sm text-black">{{ project.currentAmount | currency }}</td>
+        <td class="p-2 text-sm text-black">{{ project.targetAmount | number:'1.2-2' }} USD</td>
+        <td class="p-2 text-sm text-black">{{ project.currentAmount | number:'1.2-2' }} USD</td>
         <td class="p-2 text-sm text-black">{{ project.category }}</td>
         <td class="p-2 text-sm text-black">
           <a href="{{ project.githubLink }}" target="_blank" class="text-blue-500 hover:text-blue-700">
             GitHub
+            <i class="pi pi-link mr-2"></i>
           </a>
         </td>
         <td class="p-2 flex">
@@ -57,15 +56,14 @@
   </table>
 </div>
 
-<!-- Project Details Modal -->
 <div *ngIf="displayProjectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
   <div class="bg-white p-6 rounded-lg shadow-lg w-96">
     <h3 class="text-xl font-semibold mb-4">Project Details</h3>
     <p><strong>Title:</strong> {{ selectedProject?.title }}</p>
     <p><strong>Description:</strong> {{ selectedProject?.description }}</p>
     <p><strong>Category:</strong> {{ selectedProject?.category }}</p>
-    <p><strong>Target Amount:</strong> {{ selectedProject?.targetAmount | currency }}</p>
-    <p><strong>Current Amount:</strong> {{ selectedProject?.currentAmount | currency }}</p>
+    <p><strong>Target Amount:</strong> {{ selectedProject?.targetAmount | number:'1.2-2' }} USD</p>
+    <p><strong>Current Amount:</strong> {{ selectedProject?.currentAmount | number:'1.2-2' }} USD</p>
     <p><strong>GitHub Link:</strong> 
       <a href="{{ selectedProject?.githubLink }}" target="_blank">{{ selectedProject?.githubLink }}</a>
     </p>
@@ -74,3 +72,4 @@
     </div>
   </div>
 </div>
+

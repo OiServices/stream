@@ -1,3 +1,14 @@
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .table {
   width: 100%;
   margin-bottom: 1rem;
@@ -18,8 +29,20 @@
   font-weight: bold;
 }
 
+.table tr {
+  animation: fadeInRight 0.8s ease-out;
+}
+
 .table tr:nth-child(even) {
   background-color: #f9fafb;
+}
+
+.table tr:nth-child(even) {
+  animation-delay: 0.2s;
+}
+
+.table tr:nth-child(odd) {
+  animation-delay: 0.4s;
 }
 
 .table tr:hover {
