@@ -1,0 +1,48 @@
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-collapse: collapse;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.table th, .table td {
+  padding: 1rem;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f3f4f6;
+  font-weight: bold;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.table tr:hover {
+  background-color: #f1f5f9;
+}
+
+.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.pi {
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.pi:hover {
+  opacity: 0.7;
+}
+
+.bg-opacity-50 {
+  opacity: 0.5;
+}

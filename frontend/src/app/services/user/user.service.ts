@@ -17,7 +17,8 @@ export class UserService {
    */
   getAllUsers(): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.get(`${this.API_URL}/all`, { headers });
+    // Fetch users where `isDeleted` is false
+    return this.http.get(`${this.API_URL}/all?isDeleted=false`, { headers });
   }
 
   /**

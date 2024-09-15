@@ -63,4 +63,11 @@ export class TransactionService {
     const token = this.authService.getToken();
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
+  /**
+ * Get all transactions (Admin)
+ */
+  getAllTransactions(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get(`${this.API_URL}/all`, { headers });
+  }
 }
