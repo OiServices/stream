@@ -26,7 +26,6 @@ export class AuthService {
     const loginData = { email, password };
     return this.http.post<any>(`${this.API_URL}/login`, loginData).pipe(
       tap(response => {
-        // Store token and user role in localStorage after successful login
         localStorage.setItem(this.tokenKey, response.token);
         localStorage.setItem(this.roleKey, response.user.role);
         this.loggedIn = true;
@@ -52,7 +51,7 @@ export class AuthService {
    */
   isAuthenticated(): boolean {
     const token = localStorage.getItem(this.tokenKey);
-    this.loggedIn = !!token; // Token exists = authenticated
+    this.loggedIn = !!token;
     return this.loggedIn;
   }
 

@@ -6,12 +6,17 @@ import * as transactionController from '../controllers/transaction.controller';
 import { authenticateJWT } from '../middlewares/auth.middleware';
 import { authorizeRole } from '../middlewares/role.middleware';
 import { UserRole } from '../enums/enums';
+import * as authController from '../controllers/auth.controller';
+
 
 const router = Router();
 
-// Middleware to ensure only admins can access these routes
+
 router.use(authenticateJWT);
 router.use(authorizeRole([UserRole.ADMIN]));
+
+// Route for creating a new admin
+router.post('/admins', authController.addAdmin);
 
 // User Management (Admin)
 router.get('/users', userController.getAllUsers);

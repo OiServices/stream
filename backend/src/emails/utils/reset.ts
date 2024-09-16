@@ -1,14 +1,15 @@
 import sendMail from '../email.service';
 import { EmailOptions } from '../interfaces/email.interface';
 import logger from '../../config/logger.config';
+import { env } from '../../config/env.config';
 
 /**
- * Function
- * @param email
- * @param resetToken
+ * Function to send reset password email
+ * @param email 
+ * @param resetToken 
  */
 export const sendResetPasswordEmail = async (email: string, resetToken: string) => {
-  const resetLink = `https://example.com/reset-password?token=${resetToken}`;
+  const resetLink = `${env.frontendUrl}/reset-password?token=${resetToken}`;
 
   const emailOptions: EmailOptions = {
     email,

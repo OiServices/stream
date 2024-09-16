@@ -11,7 +11,7 @@ import { StartupService } from '../../../services/startup/startup.service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
   totalUsers: number = 0;
@@ -33,7 +33,8 @@ export class DashboardComponent implements OnInit {
 
   loadDashboardData(): void {
     this.adminService.getAllUsers().subscribe(users => {
-      this.totalUsers = users.length;
+      const filteredUsers = users.filter((user: any) => user.role !== 'ADMIN' && !user.isDeleted);
+      this.totalUsers = filteredUsers.length;
       this.animateCount('totalUsers', this.totalUsers);
     });
 
@@ -52,7 +53,6 @@ export class DashboardComponent implements OnInit {
       this.animateCount('totalProjects', this.totalProjects);
     });
 
-    
     this.transactionService.getAllTransactions().subscribe(transactions => {
       this.totalTransactions = transactions.length;
     });

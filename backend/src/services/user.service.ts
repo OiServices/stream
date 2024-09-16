@@ -6,6 +6,7 @@ import { AppError } from '../middlewares/error.middleware';
 import { env } from '../config/env.config';
 import { sign, verify } from 'jsonwebtoken';
 import { sendResetPasswordEmail } from '../emails/utils/reset';
+import { sendNewContactNotification, sendThankYouEmail } from '../emails/utils/contact-us';
 
 // Helper function to map Prisma's UserRole to your custom UserRole
 const mapPrismaRoleToUserRole = (prismaRole: string): UserRole => {
@@ -204,7 +205,7 @@ export const generatePasswordResetLink = async (email: string): Promise<void> =>
     { expiresIn: '1h' }
   );
 
-  // Reset Email
+  
   await sendResetPasswordEmail(email, resetToken);
 };
 

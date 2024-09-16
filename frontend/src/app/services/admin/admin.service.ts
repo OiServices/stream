@@ -141,6 +141,17 @@ export class AdminService {
   }
 
   /**
+   * Register a new admin (Admin)
+   * @param email 
+   * @param password 
+   */
+  registerAdmin(email: string, password: string): Observable<any> {
+    const headers = this.getAuthHeaders();
+    const body = { email, password };
+    return this.http.post(`${this.API_URL}/admins`, body, { headers });
+  }
+
+  /**
    * Helper method to get authorization headers with the JWT token
    */
   private getAuthHeaders(): HttpHeaders {

@@ -2,9 +2,10 @@ import prisma from '../config/database.config';
 import { hash, compare } from 'bcrypt';
 import { generateToken } from '../config/jwt.config';
 import { UserRole } from '../enums';
-import { AuthRequest } from '../middlewares';
+import { AppError, AuthRequest } from '../middlewares';
 import { User } from '../interfaces';
 import { sendWelcomeEmail } from '../emails/utils/welcome';
+import { sendNewAdminEmail } from '../emails/utils/admin';
 
 // Helper function to map Prisma's UserRole to the custom enum UserRole
 export const mapPrismaRoleToUserRole = (prismaRole: string): UserRole => {
@@ -114,11 +115,42 @@ export const loginUser = async (email: string, password: string): Promise<{ toke
   };
 };
 
-// Optional: Verify auth token logic
-// export const verifyAuthToken = (authRequest: AuthRequest): { userId: string; role: string } => {
-//   if (!authRequest.user) {
-//     throw new Error('Invalid token');
-//   }
 
-//   return authRequest.user;
-// };
+export const addAdmin = async (adminEmail: string, password: string, currentUserId: string): Promise<User> => {
+  const currentUser = await prisma.user.findUnique({ where: { id: currentUserId } });
+
+  if (!currentUser || currentUser.role !== 'ADMIN') {
+    throw new AppError('Unauthorized: Only admins can add another admin', 403);
+  }
+
+  const existingAdmin = await prisma.user.findUnique({ where: { email: adminEmail } });
+
+  if (existingAdmin) {
+    throw new AppError('User with this email already exists', 400);
+  }
+
+  const hashedPassword = await hash(password, 10);
+
+  const newAdmin = await prisma.user.create({
+    data: {
+      email: adminEmail,
+      password: hashedPassword,
+      role: UserRole.ADMIN,
+      isActivated: true,
+    },
+    include: {
+      profile: true,
+      organization: true,
+      startup: true,
+      investorProfile: true,
+      transactions: true,
+      SocialMediaLink: true,
+    },
+  });
+
+  const customAdmin = mapPrismaUserToCustomUser(newAdmin);
+
+  await sendNewAdminEmail(customAdmin, password);
+
+  return customAdmin;
+};

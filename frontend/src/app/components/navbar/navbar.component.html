@@ -18,7 +18,7 @@
       <a [routerLink]="['/']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Home</a>
       <a href="#about" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">About</a>
       <a href="#features" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
-      <a [routerLink]="['/contact']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
+      <a [routerLink]="['/contact-us']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
       <a [routerLink]="['/login']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Login</a>
     </div>
 
@@ -68,7 +68,7 @@
             <a href="#features" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
           </li>
           <li *ngIf="!isAuthenticated">
-            <a [routerLink]="['/contact']" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
+            <a [routerLink]="['/contact-us']" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
           </li>
           <li *ngIf="!isAuthenticated">
             <a [routerLink]="['/login']" class="hover:text-blue-600 block font-semibold transition-all">Login</a>

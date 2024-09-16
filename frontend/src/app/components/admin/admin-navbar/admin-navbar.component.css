@@ -1,17 +1,31 @@
-@media (max-width: 768px) {
-    .sidebar {
-      display: none;
-    }
-  
-    nav {
-      left: 0;
-      width: 100%;
-    }
-  
-    .admin-content {
-      margin-left: 0;
-      padding-top: 80px;
-    }
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToTop {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.slide-in {
+  animation: slideInFromTop 0.5s ease-out forwards;
+}
+
+.slide-out {
+  animation: slideOutToTop 0.5s ease-in forwards;
 }
 
 .notification-bell {
@@ -33,4 +47,17 @@
   justify-content: center;
   min-width: 16px;
   min-height: 16px;
+}
+
+input.icon-input {
+  padding-left: 2.5rem;
+  position: relative;
+}
+
+input.icon-input::before {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
 }

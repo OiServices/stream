@@ -13,6 +13,7 @@ import projectRoutes from './routes/project.routes';
 import transactionRoutes from './routes/transaction.routes';
 import investorRoutes from './routes/investor.routes';
 import { Server } from 'http';
+import contactRoutes from './routes/contact.routes';
 
 const app = express();
 
@@ -47,6 +48,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/investors', investorRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/contact', contactRoutes);
+
 
 
 app.get('/health', (req: Request, res: Response) => {

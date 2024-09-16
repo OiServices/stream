@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import * as authService from '../services/auth.service';
 import { UserRole } from '../enums/enums';
 import { AppError } from '../middlewares/error.middleware';
+import { AuthRequest } from '../middlewares';
 
 // Helper function to handle errors and return a proper JSON response
 const handleControllerError = (error: any, res: Response, next: NextFunction) => {
@@ -56,3 +57,25 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     handleControllerError(error, res, next);
   }
 };
+
+
+export const addAdmin = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const { email, password } = req.body;
+    const currentUserId = req.user!.userId;
+
+    const newAdmin = await authService.addAdmin(email, password, currentUserId);
+
+    res.status(201).json({
+      message: 'Admin added successfully',
+      data: {
+        id: newAdmin.id,
+        email: newAdmin.email,
+        role: newAdmin.role,
+      },
+    });
+  } catch (error) {
+    handleControllerError(error, res, next);
+  }
+};
+

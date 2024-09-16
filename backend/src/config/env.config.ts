@@ -13,4 +13,5 @@ export const env = {
   emailPass: process.env.EMAIL_PASS || '',
   adminEmail: process.env.ADMIN_EMAIL || '',
   stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
+  frontendUrl: process.env.FRONTEND_URL || 'http://localhost:4200',
 };
