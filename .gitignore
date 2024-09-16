@@ -3,3 +3,6 @@ logs/
 
 # Jest coverage directory
 coverage/
+
+# System files
+.DS_Store
