@@ -78,12 +78,21 @@ export class ProjectService {
     return this.http.patch(`${this.API_URL}/${projectId}/adjust-amount`, { newAmount }, { headers });
   }
 
-   /**
+  /**
    * Get all projects (Public)
    */
-   getAllProjects(): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get(`${this.API_URL}`, { headers });
+  getAllProjects(): Observable<any> {
+    // Public method, no auth headers required
+    return this.http.get(`${this.API_URL}`);
+  }
+
+  /**
+   * Get a single project by ID (Public)
+   * @param projectId 
+   */
+  getProjectById(projectId: string): Observable<any> {
+    // Public method, no auth headers required
+    return this.http.get(`${this.API_URL}/${projectId}`);
   }
 
   /**

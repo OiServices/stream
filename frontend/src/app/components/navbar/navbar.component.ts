@@ -31,4 +31,14 @@ export class NavbarComponent {
     this.isAuthenticated = false;
     this.router.navigate(['/login']);
   }
+
+  // Method to check if the user is an organization or startup
+  isOrganizationOrStartup(): boolean {
+    return this.userRole === 'ORGANIZATION' || this.userRole === 'STARTUP';
+  }
+
+  // Method to check if the user is an investor
+  isInvestor(): boolean {
+    return this.userRole === 'INVESTOR';
+  }
 }

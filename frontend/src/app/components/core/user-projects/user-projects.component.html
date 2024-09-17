@@ -1,0 +1,66 @@
+<div class="mt-16 px-4 sm:px-10">
+  <h2 class="text-2xl font-semibold mb-6">Your Projects</h2>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="flex justify-center">
+    <i class="pi pi-spin pi-spinner text-4xl text-blue-500"></i>
+  </div>
+
+  <!-- Projects List -->
+  <div *ngIf="!loading && projects.length > 0" class="grid md:grid-cols-3 gap-8">
+    <div *ngFor="let project of projects" class="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all project-card">
+      <!-- Project Title -->
+      <h3 class="font-bold text-2xl mb-4">{{ project.title }}</h3>
+
+      <!-- Project Images (First Image Displayed) -->
+      <div class="mb-4 project-image">
+        <img 
+          *ngIf="project.images && project.images.length > 0" 
+          [src]="project.images[0].url" 
+          alt="Project Image" 
+          class="rounded-lg w-full h-64 object-cover"
+        >
+      </div>
+
+      <!-- Project Description -->
+      <p class="text-gray-600 mb-4">{{ project.description }}</p>
+
+      <!-- Project Details -->
+      <div class="mb-4">
+        <p><span class="font-semibold">Category:</span> {{ project.category }}</p>
+        <p><span class="font-semibold">Target Amount:</span> ${{ project.targetAmount | number }}</p>
+        <p><span class="font-semibold">Current Amount:</span> ${{ project.currentAmount | number }}</p>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="relative pt-1 mb-4">
+        <div class="progress-bar">
+          <div 
+            class="progress-fill" 
+            [style.width]="(project.currentAmount / project.targetAmount) * 100 + '%'">
+          </div>
+        </div>
+        <p class="text-xs text-gray-500">Funding Progress: {{ (project.currentAmount / project.targetAmount) * 100 | number:'1.0-0' }}%</p>
+      </div>
+
+      <!-- Project Links -->
+      <div class="mb-4">
+        <a *ngIf="project.githubLink" [href]="project.githubLink" target="_blank" class="text-blue-500 hover:underline mr-4">GitHub Repo</a>
+        <a *ngIf="project.landingPageLink" [href]="project.landingPageLink" target="_blank" class="text-blue-500 hover:underline">Landing Page</a>
+      </div>
+
+      <!-- Buttons for Additional Actions -->
+      <button 
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        [routerLink]="['/project', project.id]"
+      >
+        View Project
+      </button>
+    </div>
+  </div>
+
+  <!-- No Projects Found -->
+  <div *ngIf="!loading && projects.length === 0" class="text-center text-gray-500">
+    <p>No projects found.</p>
+  </div>
+</div>

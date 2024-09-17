@@ -1,0 +1,39 @@
+<div class="container mx-auto mt-5">
+  <h1 class="text-3xl font-bold mb-5">Create Investor Profile</h1>
+
+  <form [formGroup]="investorForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div>
+      <label for="investmentBudget" class="block text-sm font-medium text-gray-700">Investment Budget</label>
+      <input type="number" id="investmentBudget" formControlName="investmentBudget" class="mt-1 p-2 w-full border border-gray-300 rounded-md" placeholder="Enter investment budget">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Interests</label>
+      <div formArrayName="interests" class="space-y-3">
+        <div *ngFor="let interest of interests.controls; let i = index">
+          <input type="text" [formControlName]="i" class="p-2 border border-gray-300 rounded-md" placeholder="Enter interest">
+          <button type="button" (click)="removeInterest(i)" class="bg-red-500 text-white px-3 py-1.5 rounded">Remove</button>
+        </div>
+        <button type="button" (click)="addInterest()" class="bg-green-500 text-white px-3 py-1.5 rounded mt-3">Add Interest</button>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Social Media Links</label>
+      <div formArrayName="socialMedia" class="space-y-3">
+        <div *ngFor="let social of socialMedia.controls; let i = index" [formGroupName]="i" class="flex gap-4 items-center">
+          <input type="text" formControlName="platform" placeholder="Platform" class="p-2 border border-gray-300 rounded-md">
+          <input type="url" formControlName="url" placeholder="URL" class="p-2 border border-gray-300 rounded-md">
+          <button type="button" (click)="removeSocialMedia(i)" class="bg-red-500 text-white px-3 py-1.5 rounded">Remove</button>
+        </div>
+      </div>
+      <button type="button" (click)="addSocialMedia()" class="bg-green-500 text-white px-3 py-1.5 rounded mt-3">Add Social Media</button>
+    </div>
+
+    <div class="text-right">
+      <button type="submit" [disabled]="isLoading" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+        {{ isLoading ? 'Submitting...' : 'Create Profile' }}
+      </button>
+    </div>
+  </form>
+</div>

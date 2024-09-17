@@ -97,4 +97,13 @@ export class AuthService {
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     return JSON.parse(atob(base64));
   }
+
+  getUserId(): string | null {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken = this.decodeToken(token);
+      return decodedToken?.userId || null;
+    }
+    return null;
+  }
 }

@@ -57,6 +57,22 @@ export class OrganizationService {
   }
 
   /**
+   * Get the organization profile of the authenticated user (User)
+   */
+  getOrganizationProfileByUserId(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get(`${this.API_URL}/profile`, { headers });
+  }
+
+  /**
+   * Get an organization profile by organization ID (Public/Admin)
+   * @param organizationId 
+   */
+  getOrganizationProfileById(organizationId: string): Observable<any> {
+    return this.http.get(`${this.API_URL}/${organizationId}`);
+  }
+
+  /**
    * Helper method to get authorization headers with the JWT token
    */
   private getAuthHeaders(): HttpHeaders {

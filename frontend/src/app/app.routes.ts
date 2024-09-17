@@ -19,6 +19,12 @@ import { ResetPasswordComponent } from './components/auth/reset-password/reset-p
 import { AboutComponent } from './components/shared/about/about.component';
 import { FeaturesComponent } from './components/shared/features/features.component';
 import { TestimonialsComponent } from './components/shared/testimonials/testimonials.component';
+import { UserProjectsComponent } from './components/core/user-projects/user-projects.component';
+import { SingleProjectComponent } from './components/core/single-project/single-project.component';
+import { CreateProjectComponent } from './components/core/create-project/create-project.component';
+import { UserOrgComponent } from './components/core/user-org/user-org.component';
+import { TransactionComponent } from './components/core/transaction/transaction.component';
+import { InvestorComponent } from './components/core/investor/investor.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent },
@@ -29,8 +35,19 @@ export const routes: Routes = [
     { path: 'features', component: FeaturesComponent},
     { path: 'testimonials', component: TestimonialsComponent},
     { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: 'reset-password', component: ResetPasswordComponent },  
-    { path: 'home', component: CoreComponent, canActivate: [AuthGuard] },
+    { path: 'reset-password', component: ResetPasswordComponent },
+    {path: 'project/:id',
+    component: SingleProjectComponent},
+    { path: 'home', component: CoreComponent, canActivate: [AuthGuard], 
+      children: [
+        { path: '', component: UserProjectsComponent },
+        { path: 'projects', component: UserProjectsComponent },
+        { path: 'create-project', component: CreateProjectComponent },
+        { path: 'profile', component: UserOrgComponent },
+        { path: 'transact', component: TransactionComponent },
+        { path: 'investor', component: InvestorComponent }
+      ] 
+    },
     {
         path: 'admin',
         component: AdminComponent,

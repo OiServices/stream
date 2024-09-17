@@ -1,0 +1,57 @@
+<div class="container mx-auto mt-5">
+    <h1 class="text-3xl font-bold mb-5">{{ isUpdate ? 'Update' : 'Create' }} Organization Profile</h1>
+  
+    <form [formGroup]="organizationForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Organization Name</label>
+        <input type="text" id="name" formControlName="name" class="mt-1 p-2 w-full border border-gray-300 rounded-md" placeholder="Enter organization name">
+        <div *ngIf="organizationForm.get('name')?.invalid && organizationForm.get('name')?.touched" class="text-red-600">
+          Organization name is required.
+        </div>
+      </div>
+  
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+        <textarea id="description" formControlName="description" rows="4" class="mt-1 p-2 w-full border border-gray-300 rounded-md" placeholder="Enter organization description"></textarea>
+        <div *ngIf="organizationForm.get('description')?.invalid && organizationForm.get('description')?.touched" class="text-red-600">
+          Description is required.
+        </div>
+      </div>
+  
+      <div>
+        <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
+        <input type="url" id="website" formControlName="website" class="mt-1 p-2 w-full border border-gray-300 rounded-md" placeholder="Enter organization website URL">
+        <div *ngIf="organizationForm.get('website')?.invalid && organizationForm.get('website')?.touched" class="text-red-600">
+          Website is required.
+        </div>
+      </div>
+  
+      <div>
+        <label for="logoUrl" class="block text-sm font-medium text-gray-700">Logo URL</label>
+        <input type="file" id="logoUrl" (change)="onLogoUpload($event)" class="mt-1 p-2 w-full border border-gray-300 rounded-md">
+        <div *ngIf="isUploading" class="text-blue-600">Uploading logo...</div>
+        <img *ngIf="logoUrl" [src]="logoUrl" alt="Organization Logo" class="w-24 h-24 mt-3">
+      </div>
+  
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Social Media Links</label>
+        <div formArrayName="socialMedia">
+          <div *ngFor="let socialGroup of socialMediaControls.controls; let i = index" [formGroupName]="i" class="space-y-3">
+            <div class="flex gap-4 items-center">
+              <input type="text" formControlName="platform" placeholder="Platform" class="p-2 border border-gray-300 rounded-md">
+              <input type="url" formControlName="url" placeholder="URL" class="p-2 border border-gray-300 rounded-md">
+              <button type="button" (click)="removeSocialMedia(i)" class="bg-red-500 text-white px-3 py-1.5 rounded">Remove</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" (click)="addSocialMedia()" class="bg-green-500 text-white px-3 py-1.5 rounded mt-3">Add Social Media</button>
+      </div>
+  
+      <div class="text-right">
+        <button type="submit" [disabled]="organizationForm.invalid || isLoading" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+          {{ isUpdate ? 'Update' : 'Create' }} Organization
+        </button>
+      </div>
+    </form>
+  </div>
+  

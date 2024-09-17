@@ -1,0 +1,60 @@
+<app-navbar></app-navbar>
+
+<div *ngIf="loading" class="flex justify-center mt-16">
+  <i class="pi pi-spin pi-spinner text-4xl text-blue-500"></i>
+</div>
+
+<div *ngIf="!loading && project" class="mt-16 px-4 sm:px-10">
+  <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <!-- Project Title -->
+    <h1 class="text-3xl font-bold mb-4">{{ project.title }}</h1>
+
+    <!-- Project Images (Carousel or Single Image) -->
+    <div class="mb-4">
+      <img 
+        *ngIf="project.images && project.images.length > 0" 
+        [src]="project.images[0].url" 
+        alt="Project Image" 
+        class="rounded-lg w-full h-96 object-cover"
+      >
+    </div>
+
+    <!-- Project Description -->
+    <p class="text-gray-600 mb-6">{{ project.description }}</p>
+
+    <!-- Project Details -->
+    <div class="mb-4">
+      <p><span class="font-semibold">Category:</span> {{ project.category }}</p>
+      <p><span class="font-semibold">Target Amount:</span> ${{ project.targetAmount | number }}</p>
+      <p><span class="font-semibold">Current Amount:</span> ${{ project.currentAmount | number }}</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="relative pt-1 mb-6">
+      <div class="progress-bar">
+        <div 
+          class="progress-fill" 
+          [style.width]="(project.currentAmount / project.targetAmount) * 100 + '%'">
+        </div>
+      </div>
+      <p class="text-xs text-gray-500">Funding Progress: {{ (project.currentAmount / project.targetAmount) * 100 | number:'1.0-0' }}%</p>
+    </div>
+
+    <!-- Project Links -->
+    <div class="mb-6">
+      <a *ngIf="project.githubLink" [href]="project.githubLink" target="_blank" class="text-blue-500 hover:underline mr-4">GitHub Repo</a>
+      <a *ngIf="project.landingPageLink" [href]="project.landingPageLink" target="_blank" class="text-blue-500 hover:underline">Landing Page</a>
+    </div>
+
+    <button 
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      (click)="supportProject()"
+    >
+      Support Project
+    </button>
+
+
+  </div>
+</div>
+
+<app-footer></app-footer>

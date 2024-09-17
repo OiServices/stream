@@ -1,0 +1,30 @@
+<div class="container mx-auto mt-5">
+  <h1 class="text-3xl font-bold mb-5">Process Transaction</h1>
+
+  <form [formGroup]="transactionForm" (ngSubmit)="processPayment()" class="space-y-6">
+    <div>
+      <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+      <input type="number" id="amount" formControlName="amount" class="mt-1 p-2 w-full border border-gray-300 rounded-md" placeholder="Enter amount">
+      <div *ngIf="transactionForm.get('amount')?.invalid && transactionForm.get('amount')?.touched" class="text-red-600">
+        Amount is required and should be greater than 0.
+      </div>
+    </div>
+
+    <div>
+      <label for="projectId" class="block text-sm font-medium text-gray-700">Project ID</label>
+      <input type="text" id="projectId" formControlName="projectId" class="mt-1 p-2 w-full border border-gray-300 rounded-md" placeholder="Enter Project ID">
+    </div>
+
+    <div>
+      <label for="investorId" class="block text-sm font-medium text-gray-700">Investor ID</label>
+      <input type="text" id="investorId" formControlName="investorId" class="mt-1 p-2 w-full border border-gray-300 rounded-md" placeholder="Enter Investor ID">
+    </div>
+
+    <!-- Stripe Card Element -->
+    <div id="card-element" class="mt-4 p-2 w-full border border-gray-300 rounded-md"></div>
+    
+    <button type="submit" [disabled]="isProcessing" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+      {{ isProcessing ? 'Processing...' : 'Pay' }}
+    </button>
+  </form>
+</div>
