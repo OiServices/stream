@@ -4,11 +4,12 @@ import { ContactService } from '../../services/contact/contact.service';
 import { NotificationComponent } from '../notification/notification.component';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, NotificationComponent, ReactiveFormsModule, NavbarComponent],
+  imports: [CommonModule, NotificationComponent, ReactiveFormsModule, NavbarComponent, FooterComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
 })

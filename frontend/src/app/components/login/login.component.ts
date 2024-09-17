@@ -28,7 +28,7 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {
     setTimeout(() => {
       this.loading = false;
-    }, 2000);
+    }, 200);
   }
 
   togglePasswordVisibility() {

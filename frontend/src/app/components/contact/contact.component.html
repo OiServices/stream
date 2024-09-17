@@ -9,7 +9,7 @@
     </app-notification>
   </div>
 
-  <div *ngIf="isLoading" class="flex justify-center items-center mt-50">
+  <div *ngIf="isLoading" class="flex justify-center items-center mt-80">
     <i class="pi pi-spin pi-spinner text-blue-400 text-4xl"></i>
   </div>
 
@@ -38,17 +38,22 @@
         <ul class="flex mt-4 space-x-3">
           <li class="bg-[#e6e6e6cf] h-8 w-8 rounded-full flex items-center justify-center shrink-0">
             <a href="https://www.facebook.com" target="_blank">
-              <i class="pi pi-facebook text-[#007bff]"></i>
+              <img src="icons/face.svg" alt="LinkedIn" class="w-8 h-8">
             </a>
           </li>
           <li class="bg-[#e6e6e6cf] h-8 w-8 rounded-full flex items-center justify-center shrink-0">
             <a href="https://www.twitter.com" target="_blank">
-              <i class="pi pi-twitter text-black"></i>
+              <img src="icons/linkedin.svg" alt="LinkedIn" class="w-8 h-8">
             </a>
           </li>
           <li class="bg-[#e6e6e6cf] h-8 w-8 rounded-full flex items-center justify-center shrink-0">
             <a href="https://www.instagram.com" target="_blank">
-              <i class="pi pi-instagram text-[#007bff]"></i>
+              <img src="icons/instagram.svg" alt="LinkedIn" class="w-8 h-8">
+            </a>
+          </li>
+          <li class="bg-[#e6e6e6cf] h-8 w-8 rounded-full flex items-center justify-center shrink-0">
+            <a href="https://www.linkedin.com" target="_blank">
+              <img src="icons/x.png" alt="LinkedIn" class="w-8 h-8">
             </a>
           </li>
         </ul>
@@ -83,3 +88,5 @@
     </form>
   </div>
 </div>
+
+<app-footer></app-footer>

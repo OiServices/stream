@@ -16,12 +16,18 @@ import { ProfileComponent } from './components/admin/profile/profile.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
+import { AboutComponent } from './components/shared/about/about.component';
+import { FeaturesComponent } from './components/shared/features/features.component';
+import { TestimonialsComponent } from './components/shared/testimonials/testimonials.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent },
     { path: 'login', component: LoginComponent },
     { path: 'contact-us', component: ContactComponent },
     { path: 'register', component: RegisterComponent},
+    { path: 'about', component: AboutComponent},
+    { path: 'features', component: FeaturesComponent},
+    { path: 'testimonials', component: TestimonialsComponent},
     { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'reset-password', component: ResetPasswordComponent },  
     { path: 'home', component: CoreComponent, canActivate: [AuthGuard] },

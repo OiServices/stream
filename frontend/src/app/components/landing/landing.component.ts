@@ -3,13 +3,15 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ContactService } from '../../services/contact/contact.service';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent],
+  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent, ReactiveFormsModule],
   templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css'
+  styleUrls: ['./landing.component.css']
 })
 export class LandingComponent {
   faqs = [
@@ -44,7 +46,54 @@ export class LandingComponent {
       isExpanded: false
     }
   ];
+
+  
+  subscribeForm: FormGroup;
+  isSubmitting: boolean = false;
+  subscribeMessage: string = '';
+  showSubscribeMessage: boolean = false;
+  subscriptionSuccess: boolean = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private contactService: ContactService
+  ) {
+    this.subscribeForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+  }
+
   toggleFAQ(faq: any) {
     faq.isExpanded = !faq.isExpanded;
+  }
+
+  onSubscribe(): void {
+    if (this.subscribeForm.valid) {
+      const email = this.subscribeForm.get('email')?.value;
+      this.isSubmitting = true;
+      this.contactService.subscribeToNewsletter(email).subscribe(
+        () => {
+          this.subscriptionSuccess = true;
+          this.showSubscribeMessage = true;
+          this.subscribeMessage = 'Thank you for subscribing!';
+          this.isSubmitting = false;
+          this.subscribeForm.reset();
+        },
+        (error) => {
+          this.subscriptionSuccess = false;
+          this.showSubscribeMessage = true;
+          this.subscribeMessage = 'Failed to subscribe. Please try again.';
+          this.isSubmitting = false;
+        }
+      );
+    } else {
+      this.subscriptionSuccess = false;
+      this.showSubscribeMessage = true;
+      this.subscribeMessage = 'Please enter a valid email address.';
+    }
+
+    setTimeout(() => {
+      this.showSubscribeMessage = false;
+    }, 3000);
   }
 }

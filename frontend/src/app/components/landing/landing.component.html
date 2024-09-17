@@ -27,10 +27,12 @@
       </div>
     </div>
 
+
     <div id="features" class="mt-28 px-4 sm:px-10">
       <div class="max-w-7xl w-full mx-auto">
         <div class="grid lg:grid-cols-2 items-center gap-10">
-          <div class="">
+          <!-- Slide-in from left animation for the text -->
+          <div class="slide-in-left">
             <h2 class="md:text-4xl text-3xl font-semibold mb-6">A Smarter Way to Connect Startups with Investors</h2>
             <p>
               Our platform provides a streamlined approach for startups and investors to connect. Entrepreneurs can easily 
@@ -38,53 +40,55 @@
               with high growth potential.
             </p>
             <button class='bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold rounded-md px-5 py-4 mt-8'>
-              Learn more
+              <a [routerLink]="['/features']">Learn more</a>
               <i class="pi pi-arrow-circle-right ml-2"></i>
             </button>
           </div>
-          <div class="grid sm:grid-cols-2 gap-8">
-            <!-- First Image Feature -->
-            <div class="text-center bg-white shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6">
+    
+          <!-- Slide-in from bottom animation for the features grid -->
+          <div class="grid sm:grid-cols-2 gap-8 slide-in-bottom">
+            <div class="text-center bg-blue-100 shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6">
               <img src="assets/cog.svg" alt="Customization Image" class="w-12 inline-block bg-blue-100 p-3 rounded-full" />
               <h3 class="text-base font-semibold mt-6 mb-2">Customization</h3>
-              <a href="/" class="text-blue-600 font-bold inline-block hover:underline">Learn more</a>
+              <a href="/" class="text-blue-600 font-bold inline-block">Tailor our product to suit your needs</a>
             </div>
-            <!-- Second Image Feature -->
-            <div class="text-center bg-white hover:shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6">
+            <div class="text-center bg-white hover:shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6 hover:bg-blue-100">
               <img src="assets/security-1.svg" alt="Security Image" class="w-12 inline-block bg-blue-100 p-3 rounded-full" />
               <h3 class="text-base font-semibold mt-6 mb-2">Security</h3>
-              <a href="/" class="text-blue-600 font-bold inline-block hover:underline">Learn more</a>
+              <a href="/" class="text-blue-600 font-bold inline-block ">Your data is protected by the latest security measures</a>
             </div>
-            <!-- Third Image Feature -->
-            <div class="text-center bg-white hover:shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6">
+            <div class="text-center bg-white hover:shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6 hover:bg-blue-100">
               <img src="assets/hand.svg" alt="Support Image" class="w-12 inline-block bg-blue-100 p-3 rounded-full" />
               <h3 class="text-base font-semibold mt-6 mb-2">Support</h3>
-              <a href="/" class="text-blue-600 font-bold inline-block hover:underline">Learn more</a>
+              <a href="/" class="text-blue-600 font-bold inline-block">24/7 customer support for all your inquiries</a>
             </div>
-            <!-- Fourth Image Feature -->
-            <div class="text-center bg-white hover:shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6">
+            <div class="text-center bg-white hover:shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6 hover:bg-blue-100">
               <img src="assets/graph.svg" alt="Performance Image" class="w-12 inline-block bg-blue-100 p-3 rounded-full" />
               <h3 class="text-base font-semibold mt-6 mb-2">Performance</h3>
-              <a href="/" class="text-blue-600 font-bold inline-block hover:underline">Learn more</a>
+              <a href="/" class="text-blue-600 font-bold inline-block ">Experience blazing-fast performance with our product</a>
             </div>
           </div>
         </div>
       </div>
     </div>
+    
 
     <div id="about" class="px-4 sm:px-10 mt-28">
       <div class="max-w-7xl w-full mx-auto">
         <div class="grid md:grid-cols-2 items-center gap-10">
-          <div class="w-full h-full">
+          <!-- Slide in from bottom for the image -->
+          <div class="w-full h-full slide-in-bottom">
             <img src="assets/team.webp" alt="Premium Benefits" class="w-full h-full object-cover" />
           </div>
-          <div>
+          
+          <!-- Slide in from left for the text content -->
+          <div class="slide-in-left">
             <h2 class="md:text-4xl text-3xl font-semibold mb-6">Innovative Solutions for Growing Startups</h2>
             <p>
               Our platform is designed to empower startups by connecting them with investors who believe in innovation. 
               We foster a community where groundbreaking ideas can thrive, and businesses can secure the funding they need to succeed. 
-              With a streamlined interface and powerful features, we help you present your projects,
-               attract investors, and turn your vision into reality.
+              With a streamlined interface and powerful features, we help you present your projects, 
+              attract investors, and turn your vision into reality.
             </p>
     
             <div class="mt-8">
@@ -97,14 +101,16 @@
               </div>
               <div class="mt-4">
                 <p>
-                  "Our mission is to create opportunities for startups to access funding in a simple and transparent way, ensuring that innovative businesses can grow and succeed."
+                  "Our mission is to create opportunities for startups to access funding in a simple and transparent way, 
+                  ensuring that innovative businesses can grow and succeed."
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>    
+    </div>
+    
 
     <div class="px-4 sm:px-10 mt-28">
       <div class="max-w-7xl w-full mx-auto grid md:grid-cols-2 justify-center items-center gap-10">
@@ -135,7 +141,6 @@
             <p>Hear from some of the founders whose projects have been successfully funded on our platform. See how their businesses have grown with the support of generous investors.</p>
           </div>
           <div class="flex space-x-4 items-end justify-end">
-            <!-- Rotate icon using prime icon -->
             <div class="bg-white w-10 h-10 grid items-center justify-center rounded-full shrink-0 cursor-pointer">
               <i class="pi pi-chevron-left text-[#333]" style="font-size: 1.0rem;"></i>
             </div>
@@ -230,27 +235,41 @@
       <div class="max-w-7xl mx-auto bg-gradient-to-r from-blue-200 via-blue-100 to-blue-200 py-16 px-6 relative">
         <div class="max-w-2xl mx-auto text-center">
           <h2 class="md:text-4xl text-3xl font-semibold mb-6 text-black">Subscribe to Our Newsletter</h2>
-          <div class="my-6">
-            <p class="text-black font-semibold">Subscribe to our newsletter and stay up to date with the latest news, updates, and
-              exclusive offers. Get
-              valuable insights. Join our community today!</p>
+          <div class="my-6" *ngIf="!subscriptionSuccess">
+            <p class="text-black font-semibold">Subscribe to our newsletter and stay up to date with the latest news, updates, and exclusive offers. Get valuable insights. Join our community today!</p>
           </div>
-          <div
-            class="max-w-2xl left-0 right-0 mx-auto w-full bg-white p-5 flex items-center shadow-lg absolute -bottom-10 rounded-md">
-            <input type="email" placeholder="Enter your email"
-              class="w-full bg-gray-50 py-3.5 px-4 text-base focus:outline-none" />
-            <button
-              class="bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold px-5 py-4">
-              Subscribe
-              <i class="pi pi-file-edit ml-2"></i>
-            </button>
+    
+          <div *ngIf="!subscriptionSuccess" class="max-w-2xl left-0 right-0 mx-auto w-full bg-white p-5 flex items-center shadow-lg absolute -bottom-10 rounded-md">
+            <form [formGroup]="subscribeForm" (ngSubmit)="onSubscribe()" class="w-full flex items-center">
+              <div class="flex-grow relative">
+                <i class="pi pi-envelope absolute left-3 top-4 text-gray-400"></i>
+                <input type="email" formControlName="email" placeholder="Enter your email"
+                  class="w-full bg-gray-50 py-3.5 pl-10 pr-4 text-base focus:outline-none" />
+              </div>
+              <button type="submit" [disabled]="isSubmitting"
+                class="bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold px-5 py-4 ml-4">
+                <span *ngIf="!isSubmitting">Subscribe</span>
+                <i *ngIf="isSubmitting" class="pi pi-spin pi-spinner ml-2"></i>
+              </button>
+            </form>
+          </div>
+    
+          <div class="max-w-2xl left-0 right-0 mx-auto w-full bg-white p-5 flex items-center shadow-lg absolute -bottom-10 rounded-md"
+               *ngIf="subscriptionSuccess">
+            <p class="text-green-500 text-base font-semibold text-center w-full">
+              {{ subscribeMessage }}
+            </p>
+          </div>
+    
+          <div class="max-w-2xl left-0 right-0 mx-auto w-full bg-white p-5 flex items-center shadow-lg absolute -bottom-10 rounded-md"
+               *ngIf="showSubscribeMessage && !subscriptionSuccess">
+            <p class="text-red-500 text-base font-semibold text-center w-full">
+              {{ subscribeMessage }}
+            </p>
           </div>
         </div>
       </div>
     </div>
-
-    
-
   </div>
 </body>
 

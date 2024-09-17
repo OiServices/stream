@@ -28,4 +28,19 @@ export class ContactService {
 
     return this.http.post(`${this.API_URL}`, body, { headers });
   }
+
+  /**
+   * Subscribe to the newsletter
+   * @param email 
+   * @returns Observable<any>
+   */
+  subscribeToNewsletter(email: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const body = { email };
+
+    return this.http.post(`${this.API_URL}/subscribe`, body, { headers });
+  }
 }

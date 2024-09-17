@@ -16,8 +16,8 @@
       <a [routerLink]="['/organizations']" *ngIf="isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Organizations</a>
       
       <a [routerLink]="['/']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Home</a>
-      <a href="#about" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">About</a>
-      <a href="#features" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
+      <a [routerLink]="['/about']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">About</a>
+      <a [routerLink]="['/features']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
       <a [routerLink]="['/contact-us']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
       <a [routerLink]="['/login']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Login</a>
     </div>

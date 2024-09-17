@@ -14,21 +14,21 @@
   </div>
 </div>
 
-<div *ngIf="!loading" class="font-[sans-serif] bg-white flex items-center justify-center md:h-screen py-16">
-  <div class="shadow-[0_2px_16px_-3px_rgba(6,81,237,0.3)] max-w-6xl max-md:max-w-lg rounded-md p-6">
-    <div class="grid md:grid-cols-2 items-center gap-8">
-      <div class="max-md:order-1 lg:min-w-[450px]">
-        <img src="assets/register.jpg" class="lg:w-11/12 w-full object-cover" alt="register-image" />
+<div *ngIf="!loading" class="font-[sans-serif] bg-white flex items-center justify-center md:h-screen py-12">
+  <div class="shadow-[0_2px_12px_-3px_rgba(6,81,237,0.3)] max-w-3xl max-md:max-w-md rounded-md p-6">
+    <div class="grid md:grid-cols-2 items-center gap-6">
+      <div class="max-md:order-1 lg:min-w-[300px]">
+        <img src="assets/register.jpg" class="lg:w-10/12 w-full object-cover" alt="register-image" />
       </div>
 
-      <form class="md:max-w-md w-full mx-auto">
-        <div class="mb-12">
-          <h3 class="text-4xl font-extrabold text-black">Register</h3>
+      <form class="md:max-w-sm w-full mx-auto">
+        <div class="mb-4">
+          <h3 class="text-3xl font-extrabold text-black">Register</h3>
         </div>
 
-        <div class="mb-8">
-          <p class="block text-sm font-semibold text-gray-700 mb-4">Register as</p>
-          <div class="flex space-x-6">
+        <div class="mb-4">
+          <p class="block text-sm font-semibold text-gray-700 mb-2">Register as</p>
+          <div class="flex space-x-4">
             <div *ngFor="let role of roles" class="flex items-center">
               <input type="radio" name="role" [value]="role.value" (change)="selectRole(role.value)" class="mr-2">
               <label class="text-gray-800">{{ role.displayName }}</label>
@@ -36,28 +36,28 @@
           </div>
         </div>
 
-        <div>
+        <div class="mb-4">
           <div class="relative flex items-center">
-            <input name="email" type="text" class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-3 outline-none" placeholder="Enter email" />
+            <input name="email" type="text" class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-2 outline-none" placeholder="Enter email" />
             <i class="pi pi-envelope absolute right-2 text-gray-400"></i>
           </div>
         </div>
 
-        <div class="mt-8">
+        <div class="mb-4">
           <div class="relative flex items-center">
-            <input #password name="password" (input)="evaluatePasswordStrength(password.value)" type="password" class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-3 outline-none" placeholder="Enter password" />
+            <input #password name="password" (input)="evaluatePasswordStrength(password.value)" type="password" class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-2 outline-none" placeholder="Enter password" />
             <i class="pi pi-unlock absolute right-2 text-gray-400"></i>
           </div>
         </div>
 
-        <div class="mt-8">
+        <div class="mb-4">
           <div class="relative flex items-center">
-            <input #confirmPassword name="confirmPassword" type="password" class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-3 outline-none" placeholder="Confirm password" />
+            <input #confirmPassword name="confirmPassword" type="password" class="w-full text-sm border-b border-gray-300 focus:border-blue-400 px-2 py-2 outline-none" placeholder="Confirm password" />
             <i class="pi pi-unlock absolute right-2 text-gray-400"></i>
           </div>
         </div>
 
-        <div class="mt-4">
+        <div class="mb-4">
           <div class="w-full h-2 rounded bg-gray-300">
             <div [ngClass]="{
               'bg-red-500': passwordStrength === 'weak',
@@ -75,8 +75,8 @@
           </p>
         </div>
 
-        <div class="mt-12">
-          <button type="button" (click)="onRegister($event, password.value, confirmPassword.value)" class="w-full shadow-xl py-2.5 px-5 text-sm font-semibold rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none">
+        <div class="mt-4">
+          <button type="button" (click)="onRegister($event, password.value, confirmPassword.value)" class="w-full shadow-lg py-2 px-4 text-sm font-semibold rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none">
             <ng-container *ngIf="!buttonLoading; else loadingTemplate">
               Register
               <i class="pi pi-user-plus ml-1" style="font-size: 1.0rem;"></i>
@@ -85,7 +85,7 @@
               <i class="pi pi-spin pi-spinner text-white"></i> Registering...
             </ng-template>
           </button>
-          <p class="text-gray-800 text-sm text-center mt-6">Already have an account? 
+          <p class="text-gray-800 text-sm text-center mt-4">Already have an account? 
             <a [routerLink]="['/login']" class="text-blue-400 font-semibold hover:underline ml-1 whitespace-nowrap">
               Sign in here
             </a>
