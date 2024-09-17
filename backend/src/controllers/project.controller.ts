@@ -116,3 +116,28 @@ export const adjustTargetAmount = async (req: Request, res: Response, next: Next
     handleControllerError(error, res, next);
   }
 };
+
+
+// Get a single project by ID
+export const getProjectById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const projectId = req.params.id;
+    const project = await projectService.getProjectById(projectId);
+    if (!project) {
+      throw new AppError('Project not found', 404);
+    }
+    res.status(200).json(project);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get all projects
+export const getAllProjects = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const projects = await projectService.getAllProjects();
+    res.status(200).json(projects);
+  } catch (error) {
+    next(error);
+  }
+};

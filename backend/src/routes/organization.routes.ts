@@ -44,4 +44,11 @@ router.delete(
     organizationController.deleteOrganization
 );
 
+// Get Organization Profile by User ID (User)
+router.get('/profile', authenticateJWT, organizationController.getOrganizationProfileByUserId);
+
+// Get Organization Profile by Organization ID (Public/Admin)
+router.get('/:id', organizationController.getOrganizationProfileById);
+
+
 export default router;

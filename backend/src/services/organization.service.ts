@@ -154,3 +154,38 @@ export const deleteOrganization = async (organizationId: string): Promise<Organi
     throw new AppError('Error deleting organization', 500);
   }
 };
+
+
+// Retrieve Organization Profile by User ID (User)
+export const getOrganizationProfileByUserId = async (userId: string): Promise<Organization | null> => {
+  try {
+    const organization = await prisma.organization.findUnique({
+      where: { userId },
+      include: {
+        socialMedia: true,
+        projects: true,
+      },
+    });
+
+    return organization ? mapPrismaOrganizationToCustomOrganization(organization) : null;
+  } catch (error) {
+    throw new AppError('Error retrieving organization profile', 500);
+  }
+};
+
+// Retrieve Organization Profile by Organization ID (Public/Admin)
+export const getOrganizationProfileById = async (organizationId: string): Promise<Organization | null> => {
+  try {
+    const organization = await prisma.organization.findUnique({
+      where: { id: organizationId },
+      include: {
+        socialMedia: true,
+        projects: true,
+      },
+    });
+
+    return organization ? mapPrismaOrganizationToCustomOrganization(organization) : null;
+  } catch (error) {
+    throw new AppError('Error retrieving organization profile', 500);
+  }
+};

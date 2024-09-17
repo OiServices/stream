@@ -1,4 +1,5 @@
 import prisma from '../config/database.config';
+import logger from '../config/logger.config';
 import { InvestorProfile } from '../interfaces';
 import { AppError } from '../middlewares/error.middleware';
 
@@ -117,11 +118,19 @@ export const getInvestorById = async (userId: string): Promise<InvestorProfile |
     });
 
     if (!investorProfile) {
-      throw new AppError('Investor profile not found', 404);
+      logger.warn(`Investor profile not found for userId: ${userId}`);
+      // Respond with 404 if the profile doesn't exist
+      throw new AppError('Investor profile not found. Please create a profile.', 404);
     }
 
     return mapPrismaInvestorToCustomInvestor(investorProfile);
   } catch (error) {
-    throw new AppError('Error retrieving investor profile', 500);
+    if (error instanceof Error) {
+      logger.error(`Error retrieving investor profile for userId: ${userId} - ${error.message}`);
+      throw new AppError('Error retrieving investor profile', 500);
+    } else {
+      logger.error(`Unknown error retrieving investor profile for userId: ${userId}`);
+      throw new AppError('Unknown error retrieving investor profile', 500);
+    }
   }
 };

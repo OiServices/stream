@@ -56,7 +56,9 @@ export const createProject = async (
     });
 
     return project ? mapPrismaProjectToCustomProject(project) : null;
+    
   } catch (error) {
+    console.error('Error creating project:', error);
     throw new AppError('Error creating project', 500);
   }
 };
@@ -198,5 +200,43 @@ export const adjustTargetAmount = async (
     return updatedProject ? mapPrismaProjectToCustomProject(updatedProject) : null;
   } catch (error) {
     throw new AppError('Error adjusting target amount', 500);
+  }
+};
+
+
+// Get a single project by ID
+export const getProjectById = async (projectId: string): Promise<Project | null> => {
+  try {
+    const project = await prisma.project.findUnique({
+      where: { id: projectId },
+      include: {
+        images: true,
+        transactions: true,
+      },
+    });
+
+    if (!project) {
+      throw new AppError('Project not found', 404);
+    }
+
+    return mapPrismaProjectToCustomProject(project);
+  } catch (error) {
+    throw new AppError('Error retrieving project', 500);
+  }
+};
+
+// Get all projects
+export const getAllProjects = async (): Promise<Project[]> => {
+  try {
+    const projects = await prisma.project.findMany({
+      include: {
+        images: true,
+        transactions: true,
+      },
+    });
+
+    return projects.map(mapPrismaProjectToCustomProject);
+  } catch (error) {
+    throw new AppError('Error retrieving projects', 500);
   }
 };

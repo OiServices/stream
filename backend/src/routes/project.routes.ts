@@ -26,7 +26,7 @@ router.put(
 router.delete(
     '/:id', 
     authenticateJWT, 
-    authorizeRole([UserRole.ORGANIZATION, UserRole.STARTUP]), 
+    authorizeRole([UserRole.ORGANIZATION, UserRole.STARTUP, UserRole.ORGANIZATION]), 
     projectController.deleteProject
 );
 
@@ -58,6 +58,18 @@ router.patch(
     authenticateJWT, 
     authorizeRole([UserRole.ORGANIZATION, UserRole.STARTUP]), 
     projectController.adjustTargetAmount
+);
+
+// Get all projects (Public)
+router.get(
+    '/', 
+    projectController.getAllProjects
+);
+
+// Get a single project by ID (Public)
+router.get(
+    '/:id', 
+    projectController.getProjectById
 );
 
 export default router;

@@ -52,8 +52,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "investor@example.com",
-  "password": "123investor"
+  "email": "investor9@example.com",
+  "password": "investor123"
 }
 
 ### Login as Organization User

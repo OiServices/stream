@@ -54,9 +54,9 @@ export const getAllInvestors = async (req: Request, res: Response, next: NextFun
 
 // Get Investor by User ID (User)
 export const getInvestorById = async (
-req: AuthRequest, 
-res: Response, 
-next: NextFunction
+  req: AuthRequest, 
+  res: Response, 
+  next: NextFunction
 ) => {
   try {
     const investorProfile = await investorService.getInvestorById(req.user!.userId);

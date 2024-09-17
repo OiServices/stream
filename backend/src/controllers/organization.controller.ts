@@ -82,3 +82,30 @@ export const deleteOrganization = async (req: Request, res: Response, next: Next
     handleControllerError(error, res, next);
   }
 };
+
+
+// Get Organization Profile by User ID (User)
+export const getOrganizationProfileByUserId = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const organization = await organizationService.getOrganizationProfileByUserId(req.user!.userId);
+    if (!organization) {
+      return res.status(404).json({ message: 'Organization profile not found' });
+    }
+    res.status(200).json(organization);
+  } catch (error) {
+    handleControllerError(error, res, next);
+  }
+};
+
+// Get Organization Profile by Organization ID (Public/Admin)
+export const getOrganizationProfileById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const organization = await organizationService.getOrganizationProfileById(req.params.id);
+    if (!organization) {
+      return res.status(404).json({ message: 'Organization profile not found' });
+    }
+    res.status(200).json(organization);
+  } catch (error) {
+    handleControllerError(error, res, next);
+  }
+};
