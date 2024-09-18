@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ProjectService } from '../../../services/project/project.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NotificationComponent } from '../../notification/notification.component';
 
 @Component({
   selector: 'app-create-project',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NotificationComponent],
   templateUrl: './create-project.component.html',
   styleUrls: ['./create-project.component.css']
 })
@@ -16,6 +17,9 @@ export class CreateProjectComponent {
   uploadedImages: File[] = [];
   uploadedImageUrls: string[] = [];
   isLoading: boolean = false;
+  showNotification: boolean = false;  // Notification visibility state
+  notificationMessage: string = '';  // Notification message
+  notificationType: 'success' | 'error' = 'success';  // Notification type
 
   constructor(
     private fb: FormBuilder,
@@ -64,17 +68,15 @@ export class CreateProjectComponent {
 
     this.isLoading = true;
 
-    // Upload all selected images to Cloudinary and get the secure URLs
     try {
       const imageUploadPromises = this.uploadedImages.map(file => this.uploadImageToCloudinary(file));
       this.uploadedImageUrls = await Promise.all(imageUploadPromises);
     } catch (error) {
-      console.error('Error uploading images to Cloudinary:', error);
+      this.showNotificationMessage('Error uploading images. Please try again.', 'error');
       this.isLoading = false;
       return;
     }
 
-    // After image upload, submit the project form with image URLs
     const projectData = {
       ...this.createProjectForm.value,
       images: this.uploadedImageUrls.map(url => ({ url }))
@@ -82,14 +84,21 @@ export class CreateProjectComponent {
 
     this.projectService.createProject(projectData).subscribe(
       (response) => {
-        console.log('Project created successfully:', response);
         this.isLoading = false;
+        this.showNotificationMessage('Project created successfully!', 'success');
         this.router.navigate(['/home/projects']);
       },
       (error) => {
-        console.error('Error creating project:', error);
         this.isLoading = false;
+        this.showNotificationMessage('Error creating project. Please try again.', 'error');
       }
     );
+  }
+
+  showNotificationMessage(message: string, type: 'success' | 'error') {
+    this.notificationMessage = message;
+    this.notificationType = type;
+    this.showNotification = true;
+    setTimeout(() => this.showNotification = false, 5000);
   }
 }

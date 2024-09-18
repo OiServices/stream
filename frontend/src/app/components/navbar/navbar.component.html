@@ -14,25 +14,49 @@
       <a [routerLink]="['/features']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
       <a [routerLink]="['/contact-us']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
       <a [routerLink]="['/login']" *ngIf="!isAuthenticated" class="hover:text-blue-600 block font-semibold transition-all">Login</a>
-
+      <!-- Role-based Buttons -->
       <button *ngIf="isOrganizationOrStartup()" [routerLink]="['/home/create-project']" class="bg-blue-500 text-white px-3 py-1.5 rounded hover:bg-blue-600">
         + Add Project
       </button>
-
-      <button *ngIf="isOrganizationOrStartup()" [routerLink]="['/home/profile']" class="bg-green-500 text-white px-3 py-1.5 rounded hover:bg-green-600">
+      <button *ngIf="isOrganizationOrStartup()" [routerLink]="['/home/profile']" class="bg-blue-500 text-white px-3 py-1.5 rounded hover:bg-blue-600">
         Organization Settings
       </button>
-
-      <!-- Add the Investor Profile button -->
-      <button *ngIf="isInvestor()" [routerLink]="['/home/investor']" class="bg-yellow-500 text-white px-3 py-1.5 rounded hover:bg-yellow-600">
+      <button *ngIf="isInvestor()" [routerLink]="['/home/investor']" class="bg-blue-500 text-white px-3 py-1.5 rounded hover:bg-blue-600">
         Investor Profile
       </button>
     </div>
 
-    <div class="ml-auto lg:block hidden">
+    <!-- Profile Icon and Image -->
+    <div class="relative ml-auto lg:flex hidden items-center">
       <ng-container *ngIf="isAuthenticated; else guestLinks">
-        <img [src]="profileImageUrl" alt="Profile" class="w-12 h-12 cursor-pointer items-center">
+        <!-- Profile Icon -->
+        <i class="pi pi-chevron-down text-xl mr-2 cursor-pointer hover:text-blue-600 mb-[-20px]" (click)="toggleProfileCard()"></i>
+
+        <!-- Profile Image -->
+        <img 
+          [src]="profileImageUrl" 
+          alt="Profile" 
+          class="w-12 h-12 cursor-pointer items-center rounded-full"
+          (click)="toggleProfileCard()"
+        >
+
+        <!-- Profile Dropdown Card -->
+        <div *ngIf="profileCardVisible" class="absolute top-14 right-0 bg-white shadow-lg rounded-lg py-4 px-6 w-48 z-50 profile-card">
+          <a [routerLink]="['/home/projects']" *ngIf="isAuthenticated" class="block py-2 text-gray-800 hover:bg-gray-100 rounded">Projects</a>
+          <!-- Role-based Links -->
+          <a *ngIf="isOrganizationOrStartup()" [routerLink]="['/home/create-project']" class="block py-2 text-gray-800 hover:bg-gray-100 rounded">+ Add Project</a>
+          <a *ngIf="isOrganizationOrStartup()" [routerLink]="['/home/profile']" class="block py-2 text-gray-800 hover:bg-gray-100 rounded">Organization Settings</a>
+          <a *ngIf="isInvestor()" [routerLink]="['/home/investor']" class="block py-2 text-gray-800 hover:bg-gray-100 rounded">Investor Profile</a>
+
+          <!-- Logout Button -->
+          <button class="w-full bg-red-500 text-white px-3 py-2 rounded-lg mt-2 hover:bg-red-600" (click)="logout()">
+            <i class="pi pi-sign-out ml-2 text-white"></i>
+            Logout
+          </button>
+        </div>
       </ng-container>
+
+      <!-- Guest Links -->
       <ng-template #guestLinks>
         <button class="bg-blue-100 hover:bg-blue-200 flex items-center transition-all font-semibold rounded-md px-5 py-3">
           <a [routerLink]="['/register']">Get started</a>
@@ -41,6 +65,7 @@
       </ng-template>
     </div>
 
+    <!-- Mobile Menu -->
     <div *ngIf="menuOpen" class="fixed inset-0 z-50 flex bg-black bg-opacity-50">
       <div class="w-2/3 max-w-xs bg-white h-full shadow-md p-4 transform transition-transform duration-300 ease-in-out">
         <button id="toggleClose" class="lg:hidden p-3 rounded-full bg-gray-100" (click)="toggleMenu()">
@@ -50,21 +75,8 @@
           <li *ngIf="isAuthenticated">
             <a [routerLink]="['/home/projects']" class="hover:text-blue-600 block font-semibold transition-all">Projects</a>
           </li>
-
           <li *ngIf="!isAuthenticated">
             <a [routerLink]="['/']" class="hover:text-blue-600 block font-semibold transition-all">Home</a>
-          </li>
-          <li *ngIf="!isAuthenticated">
-            <a href="#about" class="hover:text-blue-600 block font-semibold transition-all">About</a>
-          </li>
-          <li *ngIf="!isAuthenticated">
-            <a href="#features" class="hover:text-blue-600 block font-semibold transition-all">Features</a>
-          </li>
-          <li *ngIf="!isAuthenticated">
-            <a [routerLink]="['/contact-us']" class="hover:text-blue-600 block font-semibold transition-all">Contact</a>
-          </li>
-          <li *ngIf="!isAuthenticated">
-            <a [routerLink]="['/login']" class="hover:text-blue-600 block font-semibold transition-all">Login</a>
           </li>
         </ul>
       </div>

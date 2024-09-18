@@ -2,60 +2,64 @@
   <h2 class="text-2xl font-semibold mb-6">Your Projects</h2>
 
   <!-- Loading Spinner -->
-  <div *ngIf="loading" class="flex justify-center">
+  <div *ngIf="loading" class="loading-spinner flex justify-center">
     <i class="pi pi-spin pi-spinner text-4xl text-blue-500"></i>
   </div>
 
   <!-- Projects List -->
-  <div *ngIf="!loading && projects.length > 0" class="grid md:grid-cols-3 gap-8">
-    <div *ngFor="let project of projects" class="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all project-card">
-      <!-- Project Title -->
-      <h3 class="font-bold text-2xl mb-4">{{ project.title }}</h3>
-
-      <!-- Project Images (First Image Displayed) -->
-      <div class="mb-4 project-image">
+  <div *ngIf="!loading && projects.length > 0" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+    <div *ngFor="let project of projects" class="bg-white rounded-lg shadow-md hover:shadow-lg transition-all project-card w-full overflow-hidden">
+      <!-- Project Image -->
+      <div class="relative h-32 project-image">
         <img 
           *ngIf="project.images && project.images.length > 0" 
           [src]="project.images[0].url" 
           alt="Project Image" 
-          class="rounded-lg w-full h-64 object-cover"
+          class="w-full h-full object-cover"
         >
+        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+        <h3 class="absolute bottom-2 left-2 right-2 font-bold text-sm text-white truncate">{{ project.title }}</h3>
       </div>
 
-      <!-- Project Description -->
-      <p class="text-gray-600 mb-4">{{ project.description }}</p>
+      <div class="p-3">
 
-      <!-- Project Details -->
-      <div class="mb-4">
-        <p><span class="font-semibold">Category:</span> {{ project.category }}</p>
-        <p><span class="font-semibold">Target Amount:</span> ${{ project.targetAmount | number }}</p>
-        <p><span class="font-semibold">Current Amount:</span> ${{ project.currentAmount | number }}</p>
-      </div>
-
-      <!-- Progress Bar -->
-      <div class="relative pt-1 mb-4">
-        <div class="progress-bar">
-          <div 
-            class="progress-fill" 
-            [style.width]="(project.currentAmount / project.targetAmount) * 100 + '%'">
-          </div>
+        <!-- Project Details -->
+        <div class="mb-3 text-xs space-y-2 bg-gray-50 p-2 rounded">
+          <p class="flex justify-between items-center">
+            <span class="font-semibold text-gray-500">Category</span>
+            <span class="text-gray-700 bg-gray-200 px-2 py-1 rounded">{{ project.category }}</span>
+          </p>
+          <p class="flex justify-between items-center">
+            <span class="font-semibold text-gray-500">Target</span>
+            <span class="text-gray-700 font-mono">{{ project.targetAmount | number }} USDT</span>
+          </p>
+          <p class="flex justify-between items-center">
+            <span class="font-semibold text-gray-500">Current</span>
+            <span class="text-gray-700 font-mono">{{ project.currentAmount | number }} USDT</span>
+          </p>
         </div>
-        <p class="text-xs text-gray-500">Funding Progress: {{ (project.currentAmount / project.targetAmount) * 100 | number:'1.0-0' }}%</p>
-      </div>
 
-      <!-- Project Links -->
-      <div class="mb-4">
-        <a *ngIf="project.githubLink" [href]="project.githubLink" target="_blank" class="text-blue-500 hover:underline mr-4">GitHub Repo</a>
-        <a *ngIf="project.landingPageLink" [href]="project.landingPageLink" target="_blank" class="text-blue-500 hover:underline">Landing Page</a>
-      </div>
+        <!-- Progress Bar -->
+        <div class="relative mb-3">
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              class="bg-blue-500 h-2 rounded-full transition-all duration-500 ease-out"
+              [style.width]="(project.currentAmount / project.targetAmount) * 100 + '%'">
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 mt-1 text-right">
+            {{ (project.currentAmount / project.targetAmount) * 100 | number:'1.0-0' }}% Funded
+          </p>
+        </div>
 
-      <!-- Buttons for Additional Actions -->
-      <button 
-        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        [routerLink]="['/project', project.id]"
-      >
-        View Project
-      </button>
+        <!-- View Project Button -->
+        <button 
+          class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-4 py-2 rounded w-full transition-colors duration-200"
+          [routerLink]="['/project', project.id]"
+        >
+          View Project
+        </button>
+      </div>
     </div>
   </div>
 
